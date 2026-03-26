@@ -288,7 +288,7 @@ async function generate(){
   const prompt=`Generate exactly 6 unique art project ideas. Medium: ${medium}. Difficulty: ${difficulty}. Time: ${time}. Subject: ${subject}. Mood: ${moods}. Return ONLY a valid JSON array, no markdown. Format: [{"title":"4-8 word title","type":"Specific medium","description":"2-3 sentences","difficulty":"Beginner|Intermediate|Advanced","time":"e.g. 45 minutes"}]`;
 
   try{
-    const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-opus-4-6',max_tokens:1200,messages:[{role:'user',content:prompt}]})});
+    const res=await fetch('https://optimistic-truth-lumetriq.up.railway.app/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-opus-4-6',max_tokens:1200,messages:[{role:'user',content:prompt}]})});
     if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.error||'Server error '+res.status);}
     const data=await res.json();
     const raw=(data.content?.[0]?.text||'').trim().replace(/^```(?:json)?/,'').replace(/```$/,'').trim();
