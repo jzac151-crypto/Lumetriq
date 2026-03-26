@@ -7,7 +7,7 @@ const app  = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // ── /api/claude — secure Anthropic proxy ─────────────────────
 app.post('/api/claude', (req, res) => {
@@ -45,7 +45,7 @@ app.post('/api/claude', (req, res) => {
 
 // ── Fallback — serve index.html for all other routes ─────────
 app.get('*', (_req, res) =>
-  res.sendFile(path.join(__dirname, 'index.html'))
+  res.sendFile(path.join(__dirname, 'public', 'index.html'))
 );
 
 app.listen(PORT, () =>
