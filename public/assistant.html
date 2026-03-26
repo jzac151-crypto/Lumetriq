@@ -229,7 +229,7 @@ async function send() {
   addTyping();
 
   try {
-    const res = await fetch('/api/claude', {
+    const res = await fetch('https://optimistic-truth-lumetriq.up.railway.app/api/claude'
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
