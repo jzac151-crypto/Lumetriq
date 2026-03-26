@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Art Shop — Lumetriq Art Studios</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--paper:#f5f0e8;--paper-dark:#ede6d6;--paper-warm:#faf6ee;--ink:#2b2620;--ink-mid:#5a5048;--ink-faint:#9a8e82;--rule:#ddd4c2;--rule-faint:#ece6d8;--terra:#b8673a;--sage:#6b8f6e;--slate:#7280a0;--blush:#c47d72;--mustard:#b89040;--charcoal:#3a3530;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{background:var(--paper);font-family:'Lora',Georgia,serif;color:var(--ink);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.045;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)'/%3E%3C/svg%3E");}
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:repeating-linear-gradient(transparent,transparent 28px,rgba(180,162,136,0.14) 28px,rgba(180,162,136,0.14) 29px);}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 52px;height:64px;background:rgba(245,240,232,0.92);backdrop-filter:blur(10px);border-bottom:1.5px solid var(--rule);}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:400;letter-spacing:0.05em;color:var(--ink);text-decoration:none;}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-family:'Space Mono',monospace;font-size:0.66rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);text-decoration:none;transition:color 0.2s;position:relative;}
+.nav-links a:hover{color:var(--ink);}
+.nav-links a.active{color:var(--ink);}
+.nav-links a.active::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1.5px;background:var(--terra);border-radius:1px;}
+.nav-join{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.09em;text-transform:uppercase;color:var(--paper);background:var(--ink);padding:9px 18px;border-radius:2px;text-decoration:none;border:1.5px solid var(--ink);transition:all 0.2s;}
+.nav-join:hover{background:var(--terra);border-color:var(--terra);}
+.btn-fill{font-family:'Lora',serif;font-style:italic;font-size:1.05rem;color:var(--paper);background:var(--ink);padding:14px 32px;border-radius:2px;text-decoration:none;border:1.5px solid var(--ink);transition:all 0.25s;display:inline-block;position:relative;overflow:hidden;}
+.btn-fill::before{content:'';position:absolute;inset:0;background:var(--terra);transform:translateX(-101%);transition:transform 0.28s ease;}
+.btn-fill:hover::before{transform:translateX(0);}
+.btn-fill span{position:relative;z-index:1;}
+.btn-line{font-family:'Space Mono',monospace;font-size:0.67rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);background:transparent;padding:14px 24px;border-radius:2px;text-decoration:none;border:1.5px solid var(--rule);transition:all 0.2s;display:inline-block;}
+.btn-line:hover{border-color:var(--ink);}
+.section-label{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--terra);margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+.section-label::before{content:'';display:block;width:22px;height:1.5px;background:var(--terra);}
+.section-h2{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.5vw,2.8rem);font-weight:700;line-height:1.1;margin-bottom:48px;}
+.section-h2 em{font-style:italic;}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.reveal.in{opacity:1;transform:none;}
+.stagger>*{opacity:0;transform:translateY(18px);transition:opacity 0.5s ease,transform 0.5s ease;}
+.stagger.in>*:nth-child(1){opacity:1;transform:none;transition-delay:0.04s;}
+.stagger.in>*:nth-child(2){opacity:1;transform:none;transition-delay:0.12s;}
+.stagger.in>*:nth-child(3){opacity:1;transform:none;transition-delay:0.20s;}
+.stagger.in>*:nth-child(4){opacity:1;transform:none;transition-delay:0.28s;}
+.stagger.in>*:nth-child(5){opacity:1;transform:none;transition-delay:0.36s;}
+.stagger.in>*:nth-child(6){opacity:1;transform:none;transition-delay:0.44s;}
+.quote-band{position:relative;z-index:1;background:var(--charcoal);padding:72px 52px;text-align:center;overflow:hidden;}
+.quote-band::before{content:'"';position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-family:'Playfair Display',serif;font-size:220px;font-weight:700;color:rgba(255,255,255,0.04);line-height:1;pointer-events:none;}
+.quote-text{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(1.3rem,2.8vw,1.9rem);line-height:1.55;color:#f0ebe0;max-width:640px;margin:0 auto 20px;}
+.quote-attr{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(240,235,224,0.4);}
+footer{position:relative;z-index:1;background:var(--ink);color:#f0ebe0;padding:52px 52px 32px;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;margin-bottom:44px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,0.09);}
+.footer-brand-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:400;letter-spacing:0.05em;margin-bottom:12px;}
+.footer-brand p{font-size:0.92rem;line-height:1.7;color:rgba(240,235,224,0.45);max-width:240px;}
+.footer-col h5{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:rgba(240,235,224,0.35);margin-bottom:14px;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.footer-col ul a{font-size:0.92rem;color:rgba(240,235,224,0.6);text-decoration:none;transition:color 0.2s;}
+.footer-col ul a:hover{color:var(--terra);}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.footer-copy{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.07em;color:rgba(240,235,224,0.25);}
+.footer-pills{display:flex;gap:10px;}
+.footer-pill{font-family:'Space Mono',monospace;font-size:0.56rem;letter-spacing:0.06em;text-transform:uppercase;padding:4px 11px;border-radius:100px;border:1px solid rgba(255,255,255,0.1);color:rgba(240,235,224,0.3);}
+@media(max-width:960px){nav{padding:0 24px;}.nav-links{display:none;}footer{padding:40px 24px 28px;}.footer-grid{grid-template-columns:1fr 1fr;gap:28px;}}
+
+.page-header{position:relative;z-index:1;padding:120px 52px 60px;background:var(--paper);border-bottom:1.5px solid var(--rule);overflow:hidden;}
+.ph-ghost{position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-family:'Playfair Display',serif;font-size:clamp(90px,14vw,190px);font-weight:700;font-style:italic;color:transparent;-webkit-text-stroke:1px rgba(180,162,136,0.12);pointer-events:none;user-select:none;white-space:nowrap;}
+.ph-label{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--terra);margin-bottom:20px;display:flex;align-items:center;gap:10px;opacity:0;animation:up 0.6s 0.1s ease forwards;}
+.ph-label::before{content:'';display:block;width:28px;height:1.5px;background:var(--terra);}
+.ph-h1{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,4.2rem);font-weight:700;line-height:1.04;letter-spacing:-0.01em;margin-bottom:18px;opacity:0;animation:up 0.6s 0.25s ease forwards;}
+.ph-h1 em{font-style:italic;color:var(--terra);}
+.ph-body{font-size:1.1rem;line-height:1.8;color:var(--ink-mid);max-width:520px;margin-bottom:30px;opacity:0;animation:up 0.6s 0.4s ease forwards;}
+.ph-actions{display:flex;gap:12px;flex-wrap:wrap;opacity:0;animation:up 0.6s 0.55s ease forwards;}
+.filter-bar{position:sticky;top:64px;z-index:100;background:rgba(245,240,232,0.96);backdrop-filter:blur(10px);border-bottom:1.5px solid var(--rule);padding:0 52px;display:flex;align-items:center;gap:8px;height:52px;overflow-x:auto;}
+.filter-bar::-webkit-scrollbar{height:0;}
+.f-btn{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);background:transparent;padding:5px 13px;border-radius:100px;border:1.5px solid transparent;cursor:pointer;transition:all 0.18s;white-space:nowrap;}
+.f-btn:hover{color:var(--ink);border-color:var(--rule);}
+.f-btn.active{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+.sort-wrap{margin-left:auto;display:flex;align-items:center;gap:10px;}
+.sort-label{font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--ink-faint);}
+.sort-select{font-family:'Space Mono',monospace;font-size:0.58rem;border:1.5px solid var(--rule);border-radius:2px;padding:4px 8px;background:var(--paper);color:var(--ink);outline:none;cursor:pointer;}
+.shop-body{position:relative;z-index:1;padding:40px 52px 80px;}
+.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.product-card{background:var(--paper-warm);border:1.5px solid var(--rule);border-radius:2px;overflow:hidden;transition:transform 0.22s,box-shadow 0.22s;cursor:pointer;}
+.product-card:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(43,38,32,0.1);}
+.product-img{position:relative;aspect-ratio:4/3;background:var(--paper-dark);overflow:hidden;}
+.product-img svg{display:block;width:100%;height:100%;}
+.product-badge{position:absolute;top:12px;left:12px;font-family:'Space Mono',monospace;font-size:0.54rem;letter-spacing:0.08em;text-transform:uppercase;padding:3px 9px;border-radius:100px;background:var(--ink);color:var(--paper);}
+.product-badge.new-b{background:var(--terra);}
+.product-badge.pop-b{background:var(--sage);}
+.product-info{padding:18px 20px 20px;}
+.product-medium{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px;}
+.product-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;line-height:1.3;color:var(--ink);margin-bottom:6px;}
+.product-artist{font-size:0.88rem;color:var(--ink-mid);margin-bottom:12px;}
+.product-foot{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px dashed var(--rule);}
+.product-price{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;color:var(--ink-faint);font-style:italic;}
+.add-btn{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.08em;text-transform:uppercase;padding:7px 14px;background:var(--ink);color:var(--paper);border:none;border-radius:2px;cursor:pointer;transition:background 0.2s;}
+.add-btn:hover{background:var(--terra);}
+.sell-strip{position:relative;z-index:1;background:var(--charcoal);padding:56px 52px;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;}
+.sell-strip h2{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;color:#f0ebe0;margin-bottom:10px;}
+.sell-strip h2 em{font-style:italic;color:var(--terra);}
+.sell-strip p{font-size:1rem;color:rgba(240,235,224,0.6);line-height:1.75;max-width:480px;}
+.sell-btns{display:flex;gap:12px;flex-wrap:wrap;flex-shrink:0;}
+.btn-light{font-family:'Lora',serif;font-style:italic;font-size:1.05rem;color:var(--ink);background:#f0ebe0;padding:14px 28px;border-radius:2px;text-decoration:none;border:1.5px solid #f0ebe0;transition:all 0.25s;display:inline-block;position:relative;overflow:hidden;}
+.btn-light::before{content:'';position:absolute;inset:0;background:var(--terra);transform:translateX(-101%);transition:transform 0.28s ease;}
+.btn-light:hover::before{transform:translateX(0);}
+.btn-light:hover{color:#f0ebe0;border-color:var(--terra);}
+.btn-light span{position:relative;z-index:1;}
+.btn-ghost{font-family:'Space Mono',monospace;font-size:0.67rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(240,235,224,0.7);background:transparent;padding:14px 22px;border-radius:2px;text-decoration:none;border:1.5px solid rgba(240,235,224,0.2);transition:all 0.2s;display:inline-block;}
+.btn-ghost:hover{border-color:rgba(240,235,224,0.6);color:#f0ebe0;}
+.how-sec{position:relative;z-index:1;padding:72px 52px;background:var(--paper);}
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:44px;}
+.how-step{padding:32px;background:var(--paper-warm);border:1.5px solid var(--rule);border-radius:2px;position:relative;}
+.step-num{font-family:'Playfair Display',serif;font-size:3.5rem;font-weight:700;font-style:italic;color:transparent;-webkit-text-stroke:1.5px rgba(180,162,136,0.3);position:absolute;top:14px;right:18px;line-height:1;}
+.step-icon{font-size:1.8rem;margin-bottom:16px;display:block;}
+.step-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:8px;}
+.step-body{font-size:0.93rem;line-height:1.7;color:var(--ink-mid);}
+.modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(43,38,32,0.88);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity 0.25s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:var(--paper-warm);border:1.5px solid var(--rule);border-radius:2px;max-width:520px;width:100%;padding:40px;position:relative;transform:scale(0.97);transition:transform 0.28s ease;max-height:90vh;overflow-y:auto;}
+.modal-overlay.open .modal{transform:scale(1);}
+.modal-close{position:absolute;top:14px;right:14px;background:none;border:none;cursor:pointer;font-size:1.1rem;color:var(--ink-faint);transition:color 0.2s;}
+.modal-close:hover{color:var(--ink);}
+.modal-medium{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px;}
+.modal-title{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:6px;}
+.modal-artist{font-size:0.95rem;color:var(--ink-mid);margin-bottom:20px;}
+.modal-coming{background:var(--paper-dark);border:1.5px solid var(--rule);border-radius:2px;padding:18px 20px;margin-bottom:20px;font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.07em;line-height:1.75;color:var(--ink-faint);text-align:center;}
+.modal-coming strong{display:block;font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:6px;font-style:italic;}
+.modal-desc{font-size:0.92rem;line-height:1.75;color:var(--ink-mid);margin-bottom:24px;padding-top:16px;border-top:1px solid var(--rule-faint);}
+.modal-note{font-family:'Space Mono',monospace;font-size:0.54rem;color:var(--ink-faint);text-align:center;margin-top:10px;line-height:1.75;}
+.toast{position:fixed;bottom:22px;right:22px;z-index:900;background:var(--charcoal);color:#f0ebe0;padding:11px 18px;border-radius:2px;font-family:'Space Mono',monospace;font-size:0.6rem;border-left:3px solid var(--terra);transform:translateY(60px);opacity:0;transition:all 0.3s;pointer-events:none;max-width:300px;}
+.toast.show{transform:translateY(0);opacity:1;}
+.cart-pill{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:300;background:var(--ink);color:#f0ebe0;font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;padding:12px 24px;border-radius:100px;border:none;cursor:pointer;box-shadow:0 4px 20px rgba(43,38,32,0.25);transition:all 0.2s;display:none;align-items:center;gap:8px;}
+.cart-pill:hover{background:var(--terra);}
+.cart-pill.vis{display:flex;}
+@media(max-width:960px){nav{padding:0 24px;}.nav-links{display:none;}.page-header{padding:100px 24px 52px;}.shop-body{padding:28px 20px 52px;}.products-grid{grid-template-columns:1fr 1fr;}.sell-strip{grid-template-columns:1fr;gap:24px;padding:44px 24px;}.how-sec{padding:52px 24px;}.how-grid{grid-template-columns:1fr;}.filter-bar{padding:0 20px;}footer{padding:40px 24px 28px;}.footer-grid{grid-template-columns:1fr 1fr;gap:24px;}}
+@media(max-width:560px){.products-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg width="28" height="28" viewBox="0 0 30 30" fill="none"><path d="M15 4 L24 22 L15 19 L6 22 Z" stroke="#2b2620" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M15 19 L15 27" stroke="#2b2620" stroke-width="1.4" stroke-linecap="round"/><path d="M10 16 Q15 14 20 16" stroke="#b8673a" stroke-width="1.2" fill="none"/></svg>
+    Lumetriq Art Studios
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="ideas.html">Idea Generator</a></li>
+    <li><a href="tutorials.html">Tutorials</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="shop.html" class="active">Shop</a></li>
+    <li><a href="assistant.html">Art Assistant</a></li>
+  </ul>
+  <a href="shop.html" class="nav-join">Shop Prints</a>
+</nav>
+
+<header class="page-header">
+  <div class="ph-ghost">Shop</div>
+  <p class="ph-label">Art Shop</p>
+  <h1 class="ph-h1">Prints worth<br><em>living with.</em></h1>
+  <p class="ph-body">Go to gallery to sell while this is being fixed.</p>
+  <div class="ph-actions">
+    <a href="#products" class="btn-fill"><span>&#10022; Browse Prints</span></a>
+    <a href="#sell" class="btn-line">Sell Your Work &rarr;</a>
+  </div>
+</header>
+
+<div class="filter-bar">
+  <button class="f-btn active" onclick="sFilter('all',this)">All</button>
+  <button class="f-btn" onclick="sFilter('painting',this)">Painting</button>
+  <button class="f-btn" onclick="sFilter('drawing',this)">Drawing</button>
+  <button class="f-btn" onclick="sFilter('photography',this)">Photography</button>
+  <button class="f-btn" onclick="sFilter('film',this)">Film</button>
+  <button class="f-btn" onclick="sFilter('mixed',this)">Mixed</button>
+  <div class="sort-wrap">
+    <span class="sort-label">Sort:</span>
+    <select class="sort-select" onchange="sortP(this.value)">
+      <option value="def">Featured</option>
+      <option value="asc">Price &#8593;</option>
+      <option value="desc">Price &#8595;</option>
+    </select>
+  </div>
+</div>
+
+<section class="shop-body" id="products">
+  <div class="products-grid stagger" id="pGrid">
+
+    <!-- SLOT 1 -->
+    <div class="product-card" data-cat="painting" data-price="0" onclick="openM('Free Slot','Watercolour &middot; Painting','&mdash;','This slot is available. Price to be listed.',0)">
+      <div class="product-img">
+        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="300" fill="#ece4d6"/>
+          <rect x="40" y="20" width="100" height="150" fill="rgba(255,248,220,.7)" stroke="rgba(180,162,136,.3)" stroke-width="1"/>
+          <path d="M0 220 Q200 190 400 210 L400 300 L0 300 Z" fill="rgba(180,162,136,.18)"/>
+          <circle cx="240" cy="70" r="22" fill="rgba(255,200,80,.22)"/>
+          <text x="200" y="265" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="rgba(154,142,130,0.5)" font-style="italic">available</text>
+        </svg>
+        <span class="product-badge new-b">New</span>
+      </div>
+      <div class="product-info">
+        <div class="product-medium">Watercolour &middot; Painting</div>
+        <div class="product-title">Free Slot</div>
+        <div class="product-artist">&mdash;</div>
+        <div class="product-foot">
+          <div class="product-price">Price TBA</div>
+          <button class="add-btn" onclick="event.stopPropagation();openM('Free Slot','Watercolour &middot; Painting','&mdash;','This slot is available. Price to be listed.',0)">View</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLOT 2 -->
+    <div class="product-card" data-cat="drawing" data-price="0" onclick="openM('Free Slot','Drawing','&mdash;','This slot is available. Price to be listed.',0)">
+      <div class="product-img">
+        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="300" fill="#eae4da"/>
+          <rect x="130" y="20" width="60" height="200" fill="none" stroke="rgba(43,38,32,.65)" stroke-width="2"/>
+          <rect x="140" y="8" width="40" height="20" fill="none" stroke="rgba(43,38,32,.65)" stroke-width="2"/>
+          <circle cx="160" cy="110" r="18" fill="none" stroke="rgba(43,38,32,.5)" stroke-width="1.5"/>
+          <line x1="0" y1="255" x2="400" y2="255" stroke="rgba(43,38,32,.28)" stroke-width="1.5"/>
+          <text x="200" y="285" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="rgba(154,142,130,0.5)" font-style="italic">available</text>
+        </svg>
+      </div>
+      <div class="product-info">
+        <div class="product-medium">Drawing</div>
+        <div class="product-title">Free Slot</div>
+        <div class="product-artist">&mdash;</div>
+        <div class="product-foot">
+          <div class="product-price">Price TBA</div>
+          <button class="add-btn" onclick="event.stopPropagation();openM('Free Slot','Drawing','&mdash;','This slot is available. Price to be listed.',0)">View</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLOT 3 -->
+    <div class="product-card" data-cat="photography" data-price="0" onclick="openM('Free Slot','Photography','&mdash;','This slot is available. Price to be listed.',0)">
+      <div class="product-img">
+        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="300" fill="#b8c0b0"/>
+          <rect width="400" height="300" fill="rgba(43,38,32,.14)"/>
+          <path d="M0 200 Q200 180 400 195 L400 300 L0 300 Z" fill="rgba(43,38,32,.4)"/>
+          <circle cx="300" cy="72" r="44" fill="rgba(255,190,70,.3)"/>
+          <circle cx="300" cy="72" r="24" fill="rgba(255,200,90,.44)"/>
+          <text x="200" y="270" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="rgba(240,235,224,0.4)" font-style="italic">available</text>
+        </svg>
+        <span class="product-badge pop-b">Popular</span>
+      </div>
+      <div class="product-info">
+        <div class="product-medium">Photography</div>
+        <div class="product-title">Free Slot</div>
+        <div class="product-artist">&mdash;</div>
+        <div class="product-foot">
+          <div class="product-price">Price TBA</div>
+          <button class="add-btn" onclick="event.stopPropagation();openM('Free Slot','Photography','&mdash;','This slot is available. Price to be listed.',0)">View</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLOT 4 -->
+    <div class="product-card" data-cat="painting" data-price="0" onclick="openM('Free Slot','Painting','&mdash;','This slot is available. Price to be listed.',0)">
+      <div class="product-img">
+        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="300" fill="#d4b890"/>
+          <ellipse cx="90" cy="150" rx="110" ry="90" fill="rgba(184,103,58,.4)"/>
+          <ellipse cx="240" cy="130" rx="90" ry="70" fill="rgba(184,144,64,.38)"/>
+          <ellipse cx="170" cy="200" rx="100" ry="55" fill="rgba(107,60,24,.28)"/>
+          <text x="200" y="285" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="rgba(154,142,130,0.5)" font-style="italic">available</text>
+        </svg>
+      </div>
+      <div class="product-info">
+        <div class="product-medium">Painting</div>
+        <div class="product-title">Free Slot</div>
+        <div class="product-artist">&mdash;</div>
+        <div class="product-foot">
+          <div class="product-price">Price TBA</div>
+          <button class="add-btn" onclick="event.stopPropagation();openM('Free Slot','Painting','&mdash;','This slot is available. Price to be listed.',0)">View</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLOT 5 -->
+    <div class="product-card" data-cat="film" data-price="0" onclick="openM('Free Slot','Film Photography','&mdash;','This slot is available. Price to be listed.',0)">
+      <div class="product-img">
+        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ngs" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#28303c"/>
+              <stop offset="100%" stop-color="#38485a"/>
+            </linearGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#ngs)"/>
+          <rect x="0" y="195" width="400" height="105" fill="rgba(30,40,55,.85)"/>
+          <rect x="50" y="128" width="18" height="67" fill="rgba(40,54,70,.8)"/>
+          <rect x="88" y="112" width="24" height="83" fill="rgba(40,54,70,.8)"/>
+          <rect x="200" y="120" width="30" height="75" fill="rgba(40,54,70,.8)"/>
+          <circle cx="200" cy="22" r="2" fill="rgba(255,255,255,.7)"/>
+          <circle cx="320" cy="14" r="1.5" fill="rgba(255,255,255,.5)"/>
+          <text x="200" y="270" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="rgba(240,235,224,0.3)" font-style="italic">available</text>
+        </svg>
+        <span class="product-badge new-b">New</span>
+      </div>
+      <div class="product-info">
+        <div class="product-medium">Film Photography</div>
+        <div class="product-title">Free Slot</div>
+        <div class="product-artist">&mdash;</div>
+        <div class="product-foot">
+          <div class="product-price">Price TBA</div>
+          <button class="add-btn" onclick="event.stopPropagation();openM('Free Slot','Film Photography','&mdash;','This slot is available. Price to be listed.',0)">View</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLOT 6 -->
+    <div class="product-card" data-cat="mixed" data-price="0" onclick="openM('Free Slot','Mixed Media','&mdash;','This slot is available. Price to be listed.',0)">
+      <div class="product-img">
+        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="300" fill="#e8e0d4"/>
+          <rect x="30" y="30" width="140" height="160" fill="rgba(107,143,110,.18)" stroke="rgba(107,143,110,.35)" stroke-width="1.5"/>
+          <rect x="100" y="60" width="160" height="120" fill="rgba(114,128,160,.15)" stroke="rgba(114,128,160,.35)" stroke-width="1.5" transform="rotate(4,180,120)"/>
+          <rect x="60" y="110" width="180" height="100" fill="rgba(184,103,58,.12)" stroke="rgba(184,103,58,.32)" stroke-width="1.5" transform="rotate(-3,150,160)"/>
+          <text x="200" y="285" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="rgba(154,142,130,0.5)" font-style="italic">available</text>
+        </svg>
+      </div>
+      <div class="product-info">
+        <div class="product-medium">Mixed Media</div>
+        <div class="product-title">Free Slot</div>
+        <div class="product-artist">&mdash;</div>
+        <div class="product-foot">
+          <div class="product-price">Price TBA</div>
+          <button class="add-btn" onclick="event.stopPropagation();openM('Free Slot','Mixed Media','&mdash;','This slot is available. Price to be listed.',0)">View</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="sell-strip" id="sell">
+  <div>
+    <h2>Sell your work.<br><em>Free with commission soon.</em></h2>
+    <p>List your prints with Lumetriq. Email us with your name, a short bio, and 2&ndash;3 images of your work to apply for a listing slot. Once approved, your work goes live in the shop and any sales are handled via PayPal with commission paid directly to you.</p>
+  </div>
+  <div class="sell-btns">
+    <a href="mailto:lumetriqartstudios@gmail.com?subject=Apply%20to%20Sell%20on%20Lumetriq&body=Hi%20Lumetriq%20team%2C%0A%0AI%27d%20like%20to%20apply%20for%20a%20listing%20slot%20in%20the%20shop.%0A%0AName%3A%20%0AAbout%20my%20work%3A%20%0AI%27ll%20attach%202%E2%80%933%20images%20of%20my%20work.%0A%0AThanks%2C" class="btn-light"><span>&#10022; Apply to Sell</span></a>
+    <a href="gallery.html" class="btn-ghost">See the Gallery</a>
+  </div>
+</div>
+
+<section class="how-sec">
+  <div class="reveal">
+    <p class="section-label">How It Works</p>
+    <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.5vw,2.8rem);font-weight:700;line-height:1.1">Simple. <em style="font-style:italic;color:var(--terra)">Transparent.</em> Yours.</h2>
+  </div>
+  <div class="how-grid stagger">
+    <div class="how-step">
+      <div class="step-num">01</div>
+      <span class="step-icon">&#128444;</span>
+      <div class="step-title">Choose your print</div>
+      <div class="step-body">Browse the collection. Every piece is by an independent artist from the Lumetriq community. Join the community via submission email.</div>
+    </div>
+    <div class="how-step">
+      <div class="step-num">02</div>
+      <span class="step-icon">&#128230;</span>
+      <div class="step-title">Digital &amp; physical</div>
+      <div class="step-body">Works are currently strictly digital, yet requests for physical works are possible in an Australian based shipping setting.</div>
+    </div>
+    <div class="how-step">
+      <div class="step-num">03</div>
+      <span class="step-icon">&#127912;</span>
+      <div class="step-title">Any artist can apply</div>
+      <div class="step-body">Commissions off works will be sent to the artists that make valid contributions.</div>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL — shown when a product card is clicked -->
+<div class="modal-overlay" id="mOverlay" onclick="if(event.target===this)closeM()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeM()">&#10005;</button>
+    <div class="modal-medium" id="mMedium"></div>
+    <div class="modal-title" id="mTitle"></div>
+    <div class="modal-artist" id="mArtist"></div>
+    <div class="modal-coming">
+      <strong>Coming Soon</strong>
+      This slot is reserved for an upcoming artwork. Pricing and purchase options will appear here once the listing is live. Check back soon, or email <a href="mailto:lumetriqartstudios@gmail.com?subject=Shop%20Enquiry" style="color:var(--terra)">lumetriqartstudios@gmail.com</a> to enquire.
+    </div>
+    <div class="modal-desc" id="mDesc"></div>
+    <a href="gallery.html" class="btn-fill" style="width:100%;text-align:center;box-sizing:border-box"><span>&#10022; Browse the Gallery</span></a>
+    <p class="modal-note">Pricing coming soon &bull; Digital download &bull; Physical prints available on request</p>
+  </div>
+</div>
+
+<!-- CART PILL — hidden until items are added -->
+<button class="cart-pill" id="cartPill" onclick="viewCart()">&#128722; <span id="cartLbl">0 items</span></button>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-brand-name">&#10022; Lumetriq Art Studios</div>
+      <p>A creative community for drawing, painting, photography, sculpture, and film. Every mark matters here.</p>
+    </div>
+    <div class="footer-col"><h5>Create</h5><ul>
+      <li><a href="ideas.html">Idea Generator</a></li>
+      <li><a href="assistant.html">Art Assistant</a></li>
+      <li><a href="tutorials.html">Tutorials</a></li>
+    </ul></div>
+    <div class="footer-col"><h5>Community</h5><ul>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="shop.html">Art Shop</a></li>
+    </ul></div>
+    <div class="footer-col"><h5>About</h5><ul>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="mailto:lumetriqartstudios@gmail.com">Contact</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">&copy; 2025 Lumetriq Art Studios. Made for artists.</span>
+    <div class="footer-pills">
+      <span class="footer-pill">Painting</span>
+      <span class="footer-pill">Photography</span>
+      <span class="footer-pill">Film</span>
+      <span class="footer-pill">Mixed</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Cart — kept intact for when prices are added later
+let cart = JSON.parse(localStorage.getItem('lq_cart') || '[]');
+let cur  = { title: '', base: 0, extra: 0, size: 'Digital' };
+
+function saveC() { localStorage.setItem('lq_cart', JSON.stringify(cart)); }
+
+function updPill() {
+  const tot = cart.reduce((s, i) => s + i.price, 0);
+  document.getElementById('cartLbl').textContent =
+    cart.length + ' item' + (cart.length !== 1 ? 's' : '') + (tot > 0 ? ' · $' + tot + ' AUD' : '');
+  document.getElementById('cartPill').classList.toggle('vis', cart.length > 0);
+}
+
+function addCart(t, p) {
+  cart.push({ title: t, price: p, size: 'Digital' });
+  saveC(); updPill();
+  toast('Added: ' + t);
+}
+
+function viewCart() {
+  if (!cart.length) { toast('Your cart is empty.'); return; }
+  const tot   = cart.reduce((s, i) => s + i.price, 0);
+  const lines = cart.map(i => '\u2022 ' + i.title + ' \u2014 ' + (i.price > 0 ? '$' + i.price + ' AUD' : 'Free')).join('\n');
+  if (confirm('Your cart (' + cart.length + ' item' + (cart.length !== 1 ? 's' : '') + '):\n\n' + lines + '\n\nTotal: $' + tot + ' AUD\n\nTo complete your order, email: lumetriqartstudios@gmail.com\n\nClear cart?')) {
+    cart = []; saveC(); updPill();
+  }
+}
+
+// Filter
+function sFilter(cat, btn) {
+  document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.product-card').forEach(c => {
+    c.style.display = (cat === 'all' || c.dataset.cat === cat) ? '' : 'none';
+  });
+}
+
+// Sort
+function sortP(v) {
+  const g  = document.getElementById('pGrid');
+  const cs = [...g.querySelectorAll('.product-card')];
+  cs.sort((a, b) => v === 'asc' ? +a.dataset.price - +b.dataset.price : v === 'desc' ? +b.dataset.price - +a.dataset.price : 0);
+  cs.forEach(c => g.appendChild(c));
+}
+
+// Modal
+function openM(title, medium, artist, desc, base) {
+  cur = { title, base: +base, extra: 0, size: 'Digital' };
+  document.getElementById('mTitle').textContent  = title;
+  document.getElementById('mMedium').innerHTML   = medium;
+  document.getElementById('mArtist').innerHTML   = 'By ' + artist;
+  document.getElementById('mDesc').textContent   = desc;
+  document.getElementById('mOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeM() {
+  document.getElementById('mOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Toast
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(window._tt);
+  window._tt = setTimeout((

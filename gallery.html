@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Community Gallery — Lumetriq Art Studios</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--paper:#f5f0e8;--paper-dark:#ede6d6;--paper-warm:#faf6ee;--ink:#2b2620;--ink-mid:#5a5048;--ink-faint:#9a8e82;--rule:#ddd4c2;--rule-faint:#ece6d8;--terra:#b8673a;--sage:#6b8f6e;--slate:#7280a0;--blush:#c47d72;--mustard:#b89040;--charcoal:#3a3530;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{background:var(--paper);font-family:'Lora',Georgia,serif;color:var(--ink);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.045;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)'/%3E%3C/svg%3E");}
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:repeating-linear-gradient(transparent,transparent 28px,rgba(180,162,136,0.14) 28px,rgba(180,162,136,0.14) 29px);}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 52px;height:64px;background:rgba(245,240,232,0.92);backdrop-filter:blur(10px);border-bottom:1.5px solid var(--rule);}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:400;letter-spacing:0.05em;color:var(--ink);text-decoration:none;}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-family:'Space Mono',monospace;font-size:0.66rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);text-decoration:none;transition:color 0.2s;position:relative;}
+.nav-links a:hover{color:var(--ink);}
+.nav-links a.active{color:var(--ink);}
+.nav-links a.active::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1.5px;background:var(--terra);border-radius:1px;}
+.nav-join{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.09em;text-transform:uppercase;color:var(--paper);background:var(--ink);padding:9px 18px;border-radius:2px;text-decoration:none;border:1.5px solid var(--ink);transition:all 0.2s;}
+.nav-join:hover{background:var(--terra);border-color:var(--terra);}
+.btn-fill{font-family:'Lora',serif;font-style:italic;font-size:1.05rem;color:var(--paper);background:var(--ink);padding:14px 32px;border-radius:2px;text-decoration:none;border:1.5px solid var(--ink);transition:all 0.25s;display:inline-block;position:relative;overflow:hidden;cursor:pointer;}
+.btn-fill::before{content:'';position:absolute;inset:0;background:var(--terra);transform:translateX(-101%);transition:transform 0.28s ease;}
+.btn-fill:hover::before{transform:translateX(0);}
+.btn-fill span{position:relative;z-index:1;}
+.btn-line{font-family:'Space Mono',monospace;font-size:0.67rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);background:transparent;padding:14px 24px;border-radius:2px;text-decoration:none;border:1.5px solid var(--rule);transition:all 0.2s;display:inline-block;}
+.btn-line:hover{border-color:var(--ink);}
+.section-label{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--terra);margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+.section-label::before{content:'';display:block;width:22px;height:1.5px;background:var(--terra);}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity 0.6s ease,transform 0.6s ease;}.reveal.in{opacity:1;transform:none;}
+.stagger>*{opacity:0;transform:translateY(18px);transition:opacity 0.5s ease,transform 0.5s ease;}
+.stagger.in>*:nth-child(1){opacity:1;transform:none;transition-delay:0.04s;}.stagger.in>*:nth-child(2){opacity:1;transform:none;transition-delay:0.12s;}.stagger.in>*:nth-child(3){opacity:1;transform:none;transition-delay:0.20s;}
+
+.page-header{position:relative;z-index:1;padding:120px 52px 60px;background:var(--paper);border-bottom:1.5px solid var(--rule);overflow:hidden;}
+.ph-ghost{position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-family:'Playfair Display',serif;font-size:clamp(90px,14vw,190px);font-weight:700;font-style:italic;color:transparent;-webkit-text-stroke:1px rgba(180,162,136,0.12);pointer-events:none;user-select:none;white-space:nowrap;}
+.ph-label{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--terra);margin-bottom:20px;display:flex;align-items:center;gap:10px;opacity:0;animation:up 0.6s 0.1s ease forwards;}
+.ph-label::before{content:'';display:block;width:28px;height:1.5px;background:var(--terra);}
+.ph-h1{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,4.2rem);font-weight:700;line-height:1.04;letter-spacing:-0.01em;margin-bottom:18px;opacity:0;animation:up 0.6s 0.25s ease forwards;}
+.ph-h1 em{font-style:italic;color:var(--terra);}
+.ph-body{font-size:1.1rem;line-height:1.8;color:var(--ink-mid);max-width:520px;margin-bottom:30px;opacity:0;animation:up 0.6s 0.4s ease forwards;}
+.ph-actions{display:flex;gap:12px;flex-wrap:wrap;opacity:0;animation:up 0.6s 0.55s ease forwards;}
+
+.filter-bar{position:sticky;top:64px;z-index:100;background:rgba(245,240,232,0.96);backdrop-filter:blur(10px);border-bottom:1.5px solid var(--rule);padding:0 52px;display:flex;align-items:center;gap:8px;height:52px;overflow-x:auto;}
+.filter-bar::-webkit-scrollbar{height:0;}
+.f-btn{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);background:transparent;padding:5px 13px;border-radius:100px;border:1.5px solid transparent;cursor:pointer;transition:all 0.18s;white-space:nowrap;}
+.f-btn:hover{color:var(--ink);border-color:var(--rule);}
+.f-btn.active{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+.f-right{margin-left:auto;font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--ink-faint);white-space:nowrap;}
+
+.gallery-body{position:relative;z-index:1;padding:36px 44px 80px;}
+.gal-grid{columns:3 260px;column-gap:18px;}
+.gal-item{break-inside:avoid;margin-bottom:18px;background:var(--paper-warm);border:1.5px solid var(--rule);border-radius:2px;overflow:hidden;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;}
+.gal-item:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(43,38,32,0.1);}
+.gal-canvas{width:100%;display:block;}
+.gi-body{padding:14px 16px 16px;}
+.gi-medium{font-family:'Space Mono',monospace;font-size:0.57rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:4px;}
+.gi-title{font-family:'Playfair Display',serif;font-size:0.97rem;font-weight:600;line-height:1.3;color:var(--ink);margin-bottom:4px;}
+.gi-foot{font-size:0.86rem;color:var(--ink-mid);display:flex;align-items:center;justify-content:space-between;}
+.gi-like{background:none;border:none;cursor:pointer;font-size:0.88rem;opacity:0.4;transition:opacity 0.18s,transform 0.18s;padding:2px;}
+.gi-like:hover{opacity:1;transform:scale(1.2);}
+.gi-like.liked{opacity:1;}
+
+/* UPLOAD + PAYMENT */
+.upload-sec{position:relative;z-index:1;padding:64px 52px;background:var(--paper-dark);border-top:1.5px solid var(--rule);}
+.upload-inner{max-width:920px;margin:0 auto;}
+.upload-top{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;margin-bottom:48px;}
+.upload-pitch h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.4rem);font-weight:700;line-height:1.15;margin-bottom:14px;}
+.upload-pitch h2 em{font-style:italic;color:var(--terra);}
+.upload-pitch p{font-size:1rem;line-height:1.8;color:var(--ink-mid);margin-bottom:20px;}
+.perk{font-size:0.92rem;color:var(--ink-mid);display:flex;align-items:flex-start;gap:10px;margin-bottom:9px;}
+.perk-check{color:var(--sage);font-weight:700;flex-shrink:0;margin-top:2px;}
+.steps-label{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:16px;}
+.pay-steps{display:flex;flex-direction:column;gap:14px;}
+.pay-step{background:var(--paper-warm);border:1.5px solid var(--rule);border-radius:2px;padding:20px 22px;position:relative;padding-left:56px;}
+.pay-step::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--terra);border-radius:2px 0 0 2px;}
+.pay-step-num{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;font-style:italic;color:transparent;-webkit-text-stroke:1.2px rgba(184,103,58,0.4);}
+.pay-step-title{font-family:'Playfair Display',serif;font-size:0.97rem;font-weight:700;margin-bottom:4px;}
+.pay-step-body{font-size:0.86rem;line-height:1.65;color:var(--ink-mid);}
+
+.submission-card{background:var(--paper-warm);border:1.5px solid var(--rule);border-radius:2px;padding:36px 40px;}
+.submission-card h3{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;margin-bottom:8px;}
+.submission-card > p{font-size:0.95rem;color:var(--ink-mid);line-height:1.7;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--rule-faint);}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
+.field{margin-bottom:0;}
+.field label{display:block;font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:7px;}
+.field input,.field select,.field textarea{width:100%;border:1.5px solid var(--rule);border-radius:2px;padding:11px 14px;background:var(--paper);font-family:'Lora',serif;font-size:0.97rem;color:var(--ink);outline:none;transition:border-color 0.2s;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--terra);}
+.field textarea{resize:vertical;min-height:80px;}
+.field-full{grid-column:span 2;}
+
+.legal-box{background:var(--paper-dark);border:1.5px solid var(--rule);border-radius:2px;padding:18px 22px;margin:20px 0;font-family:'Space Mono',monospace;font-size:0.56rem;letter-spacing:0.03em;line-height:1.9;color:var(--ink-faint);}
+.legal-box strong{color:var(--ink-mid);display:block;margin-bottom:8px;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;}
+.legal-box a{color:var(--terra);text-decoration:none;}
+
+.proceed-btn-wrap{display:flex;align-items:center;gap:16px;margin-top:8px;flex-wrap:wrap;}
+.proceed-note{font-family:'Space Mono',monospace;font-size:0.56rem;letter-spacing:0.04em;color:var(--ink-faint);line-height:1.7;}
+
+/* PayPal Payment Section */
+.pp-section{display:none;margin-top:32px;border-top:1.5px solid var(--rule);padding-top:32px;}
+.pp-section.show{display:block;}
+.pp-section h4{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;margin-bottom:10px;}
+.pp-section > p{font-size:0.93rem;color:var(--ink-mid);line-height:1.75;margin-bottom:22px;}
+.pp-summary{background:var(--paper-dark);border:1.5px solid var(--rule);border-radius:2px;padding:18px 22px;margin-bottom:24px;}
+.pp-summary-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.pp-summary-row:last-child{margin-bottom:0;padding-top:10px;border-top:1px dashed var(--rule);}
+.pp-summary-label{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);}
+.pp-summary-value{font-family:'Lora',serif;font-size:0.95rem;color:var(--ink-mid);}
+.pp-summary-total{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--ink);}
+.pp-btn-area{display:flex;flex-direction:column;align-items:flex-start;gap:12px;}
+.pp-secure-note{font-family:'Space Mono',monospace;font-size:0.54rem;letter-spacing:0.04em;color:var(--ink-faint);line-height:1.8;}
+.pp-secure-note strong{color:var(--ink-mid);}
+
+/* Lightbox */
+.lightbox{position:fixed;inset:0;z-index:500;background:rgba(43,38,32,0.88);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity 0.25s;}
+.lightbox.open{opacity:1;pointer-events:all;}
+.lb-inner{display:grid;grid-template-columns:1fr 300px;max-width:860px;width:100%;max-height:88vh;background:var(--paper-warm);border:1.5px solid var(--rule);border-radius:2px;overflow:hidden;box-shadow:0 24px 64px rgba(43,38,32,0.3);transform:scale(0.97);transition:transform 0.28s ease;}
+.lightbox.open .lb-inner{transform:scale(1);}
+.lb-img{overflow:hidden;background:var(--paper-dark);}
+.lb-img svg{width:100%;height:100%;display:block;}
+.lb-info{padding:28px;overflow-y:auto;display:flex;flex-direction:column;}
+.lb-medium{font-family:'Space Mono',monospace;font-size:0.57rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:10px;}
+.lb-title{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;line-height:1.2;margin-bottom:8px;}
+.lb-artist{font-size:0.95rem;color:var(--ink-mid);margin-bottom:14px;}
+.lb-desc{font-size:0.9rem;line-height:1.75;color:var(--ink-mid);flex:1;margin-bottom:20px;}
+.lb-close{position:absolute;top:14px;right:14px;width:30px;height:30px;background:rgba(245,240,232,0.9);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.95rem;color:var(--ink);z-index:1;}
+.lb-close:hover{background:var(--paper);}
+.toast{position:fixed;bottom:22px;right:22px;z-index:900;background:var(--charcoal);color:#f0ebe0;padding:12px 18px;border-radius:2px;font-family:'Space Mono',monospace;font-size:0.6rem;border-left:3px solid var(--terra);transform:translateY(60px);opacity:0;transition:all 0.3s;pointer-events:none;max-width:320px;line-height:1.6;}
+.toast.show{transform:translateY(0);opacity:1;}
+footer{position:relative;z-index:1;background:var(--ink);color:#f0ebe0;padding:52px 52px 32px;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;margin-bottom:44px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,0.09);}
+.footer-brand-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:400;letter-spacing:0.05em;margin-bottom:12px;}
+.footer-brand p{font-size:0.92rem;line-height:1.7;color:rgba(240,235,224,0.45);max-width:240px;}
+.footer-col h5{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:rgba(240,235,224,0.35);margin-bottom:14px;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.footer-col ul a{font-size:0.92rem;color:rgba(240,235,224,0.6);text-decoration:none;transition:color 0.2s;}
+.footer-col ul a:hover{color:var(--terra);}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.footer-copy{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.07em;color:rgba(240,235,224,0.25);}
+.footer-pills{display:flex;gap:10px;flex-wrap:wrap;}
+.footer-pill{font-family:'Space Mono',monospace;font-size:0.56rem;letter-spacing:0.06em;text-transform:uppercase;padding:4px 11px;border-radius:100px;border:1px solid rgba(255,255,255,0.1);color:rgba(240,235,224,0.3);}
+@media(max-width:960px){nav{padding:0 24px;}.nav-links{display:none;}.page-header{padding:100px 24px 52px;}.gallery-body{padding:24px 20px 52px;}.gal-grid{columns:2 200px;}.upload-sec{padding:52px 24px;}.upload-top{grid-template-columns:1fr;gap:32px;}.form-grid{grid-template-columns:1fr;}.field-full{grid-column:span 1;}.lb-inner{grid-template-columns:1fr;}.lb-img{height:200px;}footer{padding:40px 24px 28px;}.footer-grid{grid-template-columns:1fr 1fr;gap:24px;}}
+@media(max-width:560px){.gal-grid{columns:1;}.filter-bar{padding:0 20px;}}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg width="28" height="28" viewBox="0 0 30 30" fill="none">
+      <path d="M15 4 L24 22 L15 19 L6 22 Z" stroke="#2b2620" stroke-width="1.4" fill="none" stroke-linejoin="round"/>
+      <path d="M15 19 L15 27" stroke="#2b2620" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M10 16 Q15 14 20 16" stroke="#b8673a" stroke-width="1.2" fill="none"/>
+    </svg>
+    Lumetriq Art Studios
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="ideas.html">Idea Generator</a></li>
+    <li><a href="tutorials.html">Tutorials</a></li>
+    <li><a href="gallery.html" class="active">Gallery</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="assistant.html">Art Assistant</a></li>
+  </ul>
+  <a href="shop.html" class="nav-join">Shop Prints</a>
+</nav>
+
+<header class="page-header">
+  <div class="ph-ghost">Gallery</div>
+  <p class="ph-label">Community Gallery</p>
+  <h1 class="ph-h1">Work made<br><em>by real artists.</em></h1>
+  <p class="ph-body">Every piece here was submitted by a Lumetriq community artist. Browse, like, and share &mdash; or submit your own work. Listing is free during our launch period.</p>
+  <div class="ph-actions">
+    <button class="btn-fill" onclick="document.getElementById('uploadSec').scrollIntoView({behavior:'smooth'})"><span>&#10022; Submit Your Work</span></button>
+    <a href="shop.html" class="btn-line">Buy Prints &rarr;</a>
+  </div>
+</header>
+
+<div class="filter-bar">
+  <button class="f-btn active" onclick="doFilter('all',this)">All</button>
+  <button class="f-btn" onclick="doFilter('painting',this)">Painting</button>
+  <button class="f-btn" onclick="doFilter('drawing',this)">Drawing</button>
+  <button class="f-btn" onclick="doFilter('photography',this)">Photography</button>
+  <button class="f-btn" onclick="doFilter('sculpture',this)">Sculpture</button>
+  <button class="f-btn" onclick="doFilter('film',this)">Film</button>
+  <button class="f-btn" onclick="doFilter('mixed',this)">Mixed</button>
+  <div class="f-right" id="galCount">9 works</div>
+</div>
+
+<div class="gallery-body">
+  <div class="gal-grid" id="galGrid">
+
+    <div class="gal-item" data-cat="painting" onclick="openLB('Free Slot','Watercolour &middot; Painting','Mira K.','A quiet study in domestic light. Loose washes, a restrained palette, maximum peace.','p1')">
+      <svg class="gal-canvas" viewBox="0 0 400 480" id="sv-p1"><rect width="400" height="480" fill="#ece4d6"/><rect x="40" y="30" width="140" height="200" fill="rgba(255,248,220,.7)" stroke="rgba(180,162,136,.3)" stroke-width="1"/><path d="M0 280 Q200 240 400 265 L400 480 L0 480 Z" fill="rgba(180,162,136,.18)"/><ellipse cx="160" cy="340" rx="90" ry="22" fill="rgba(184,103,58,.14)"/><rect x="105" y="305" width="110" height="48" rx="2" fill="rgba(107,143,110,.3)"/><path d="M40 30 L40 230 M180 30 L180 230" stroke="rgba(255,248,220,.9)" stroke-width="10"/><circle cx="240" cy="90" r="28" fill="rgba(255,200,80,.22)"/></svg>
+      <div class="gi-body"><div class="gi-medium">Watercolour &middot; Painting</div><div class="gi-title">Free Slot</div><div class="gi-foot"><span>Mira K.</span><button class="gi-like" onclick="event.stopPropagation();likeIt(this)">&#9825;</button></div></div>
+    </div>
+
+    <div class="gal-item" data-cat="drawing" onclick="openLB('Free Slot','Ink &middot; Drawing','James O.','Caught before the crowds arrived. Quick, confident strokes. What looks effortless took three visits.','d1')">
+      <svg class="gal-canvas" viewBox="0 0 400 520" id="sv-d1"><rect width="400" height="520" fill="#eae4da"/><rect x="110" y="60" width="80" height="260" fill="none" stroke="rgba(43,38,32,.65)" stroke-width="2"/><rect x="125" y="42" width="50" height="28" fill="none" stroke="rgba(43,38,32,.65)" stroke-width="2"/><path d="M143 22 L150 8 L157 22 Z" fill="rgba(43,38,32,.65)"/><circle cx="150" cy="165" r="22" fill="none" stroke="rgba(43,38,32,.5)" stroke-width="1.5"/><line x1="150" y1="148" x2="150" y2="165" stroke="rgba(43,38,32,.5)" stroke-width="1.5"/><line x1="150" y1="165" x2="163" y2="170" stroke="rgba(43,38,32,.5)" stroke-width="1.5"/><line x1="0" y1="380" x2="400" y2="380" stroke="rgba(43,38,32,.28)" stroke-width="1.5"/></svg>
+      <div class="gi-body"><div class="gi-medium">Ink &middot; Drawing</div><div class="gi-title">Free Slot</div><div class="gi-foot"><span>James O.</span><button class="gi-like" onclick="event.stopPropagation();likeIt(this)">&#9825;</button></div></div>
+    </div>
+
+    <div class="gal-item" data-cat="photography" onclick="openLB('Free Slot','Street Photography','Priya N.','The moment when the street becomes something else entirely. Shot on a Tuesday evening.','ph1')">
+      <svg class="gal-canvas" viewBox="0 0 400 300" id="sv-ph1"><rect width="400" height="300" fill="#b8c0b0"/><rect width="400" height="300" fill="rgba(43,38,32,.14)"/><path d="M0 200 Q100 170 200 190 Q300 210 400 180 L400 300 L0 300 Z" fill="rgba(43,38,32,.4)"/><circle cx="300" cy="72" r="44" fill="rgba(255,190,70,.3)"/><circle cx="300" cy="72" r="24" fill="rgba(255,200,90,.44)"/><ellipse cx="120" cy="160" rx="20" ry="40" fill="rgba(43,38,32,.58)"/></svg>
+      <div class="gi-body"><div class="gi-medium">Street &middot; Photography</div><div class="gi-title">Free Slot</div><div class="gi-foot"><span>Priya N.</span><button class="gi-like" onclick="event.stopPropagation();likeIt(this)">&#9825;</button></div></div>
+    </div>
+
+    <div class="gal-item" data-cat="painting" onclick="openLB('Free Slot','Oil &middot; Painting','Lea F.','Third in a series exploring ochre tones. Built up over eight sessions.','p2')">
+      <svg class="gal-canvas" viewBox="0 0 400 340" id="sv-p2"><rect width="400" height="340" fill="#d4b890"/><ellipse cx="90" cy="170" rx="110" ry="100" fill="rgba(184,103,58,.4)"/><ellipse cx="240" cy="140" rx="90" ry="80" fill="rgba(184,144,64,.38)"/><ellipse cx="170" cy="220" rx="100" ry="58" fill="rgba(107,60,24,.28)"/><path d="M0 260 Q200 225 400 248 L400 340 L0 340 Z" fill="rgba(80,44,18,.3)"/></svg>
+      <div class="gi-body"><div class="gi-medium">Oil &middot; Painting</div><div class="gi-title">Free Slot</div><div class="gi-foot"><span>Lea F.</span><button class="gi-like" onclick="event.stopPropagation();likeIt(this)">&#9825;</button></div></div>
+    </div>
+
+    <div class="gal-item" data-cat="sculpture" onclick="openLB('Free Slot','Clay Sculpture','Dom R.','First attempt at a realistic hand in air-dry clay. Left unglazed.','s1')">
+      <svg class="gal-canvas" viewBox="0 0 400 420" id="sv-s1"><rect width="400" height="420" fill="#e8e0d0"/><path d="M120 380 Q130 200 150 160 Q160 140 170 160 L175 380 Z" fill="rgba(200,180,150,.7)" stroke="rgba(150,120,80,.4)" stroke-width="1"/><path d="M175 370 Q180 210 190 185 Q198 168 204 185 L208 370 Z" fill="rgba(200,180,150,.7)" stroke="rgba(150,120,80,.4)" stroke-width="1"/><path d="M208 365 Q212 220 220 200 Q228 185 234 200 L237 365 Z" fill="rgba(200,180,150,.7)" stroke="rgba(150,120,80,.4)" stroke-width="1"/><path d="M237 370 Q240 235 245 220 Q252 207 256 220 L258 370 Z" fill="rgba(200,180,150,.7)" stroke="rgba(150,120,80,.4)" stroke-width="1"/><ellipse cx="190" cy="374" rx="80" ry="14" fill="rgba(150,120,80,.25)"/></svg>
+      <div class="gi-body"><div class="gi-medium">Clay &middot; Sculpture</div><div class="gi-title">Free Slot</div><div class="gi-foot"><span>Dom R.</span><button class="gi-like" onclick="event.stopPropagation();likeIt(this)">&#9825;</button></div></div>
+    </div>
+
+    <div class="gal-item" data-cat="film" onclick="openLB('Free Slot','Film Photography — Portra 400','Yuki T.','Shot on 35mm Kodak Portra 400. The warmth of film at night cannot be replicated digitally.','f1')">
+      <svg class="gal-canvas" viewBox="0 0 400 380" id="sv-f1"><defs><linearGradient id="ngr" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#28303c"/><stop offset="100%" stop-color="#38485a"/></linearGradient></defs><rect width="400" height="380" fill="url(#ngr)"/><rect x="0" y="240" width="400" height="140" fill="rgba(30,40,55,.85)"/><rect x="50" y="160" width="22" height="80" fill="rgba(40,54,70,.8)"/><rect x="88" y="140" width="30" height="100" fill="rgba(40,54,70,.8)"/><rect x="200" y="150" width="36" height="90" fill="rgba(40,54,70,.8)"/><circle cx="200" cy="22" r="2" fill="rgba(255,255,255,.7)"/><circle cx="320" cy="14" r="1.5" fill="rgba(255,255,255,.5)"/><path d="M30 240 Q200 230 380 238" stroke="rgba(255,200,80,.18)" stroke-width="40" fill="none"/></svg>
+      <div class="gi-body"><div class="gi-medium">Film &middot; Kodak Portra 400</div><div class="gi-title">Free Slot</div><div class="gi-foot"><span>Yuki T.</span><button class="gi-like" onclick="event.stopPropagation();likeIt(this)">&#9825;</button></div></div>
+    </div>
+
+    <div class="gal-item" data-cat="drawing" onclick="openLB('Free Slot','Graphite &middot; Drawing','Seb A.','A life drawing session study. North window light did most of the work.','d2')">
+      <svg class="gal-canvas" viewBox="0 0 400 500" id="sv-d2"><rect width="400" height="500" fill="#e8e4de"/><ellipse cx="200" cy="160" rx="70" ry="85" fill="rgba(43,38,32,.11)"/><ellipse cx="200" cy="142" rx="45" ry="58" fill="rgba(43,38,32,.17)"/><ellipse cx="200" cy="134" rx="30" ry="38" fill="rgba(43,38,32,.21)"/><path d="M130 245 Q200 230 270 245 L280 400 Q200 424 120 400 Z" fill="rgba(43,38,32,.1)"/></svg>
+      <div class="gi-body"><div class="gi-medium">Graphite &middot; Drawing</div><div class="gi-title">Free Slot</div><div class="gi-foot"><span>Seb A.</span><button class="gi-like" onclick="event.stopPropagation();likeIt(this)">&#9825;</button></div></div>
+    </div>
+
+    <div class="gal-item" data-cat="mixed" onclick="openLB('Free Slot','Mixed Media &middot; Collage','Rosa P.','Old maps, cut newsprint, india ink. About my grandmother\'s migration.','m1')">
+      <svg class="gal-canvas" viewBox="0 0 400 380" id="sv-m1"><rect width="400" height="380" fill="#e8e0d4"/><rect x="30" y="40" width="160" height="200" fill="rgba(107,143,110,.18)" stroke="rgba(107,143,110,.35)" stroke-width="1.5"/><rect x="110" y="80" width="180" height="140" fill="rgba(114,128,160,.15)" stroke="rgba(114,128,160,.35)" stroke-width="1.5" transform="rotate(4,200,150)"/><rect x="60" y="140" width="200" height="120" fill="rgba(184,103,58,.12)" stroke="rgba(184,103,58,.32)" stroke-width="1.5" transform="rotate(-3,160,200)"/><path d="M40 300 Q200 260 360 285" stroke="rgba(43,38,32,.6)" stroke-width="1.5" fill="none"/></svg>
+      <div class="gi-body"><div class="gi-medium">Mixed Media &middot; Collage</div><div class="gi-title">Free Slot</div><div class="gi-foot"><span>Rosa P.</span><button class="gi-like" onclick="event.stopPropagation();likeIt(this)">&#9825;</button></div></div>
+    </div>
+
+    <div class="gal-item" data-cat="painting" onclick="openLB('Free Slot','Watercolour &middot; Painting','Anna C.','The garden at the end of summer — past its best, more interesting for it.','p3')">
+      <svg class="gal-canvas" viewBox="0 0 400 440" id="sv-p3"><rect width="400" height="440" fill="#dce8d0"/><ellipse cx="160" cy="220" rx="70" ry="110" fill="rgba(107,143,110,.35)"/><ellipse cx="100" cy="200" rx="50" ry="76" fill="rgba(107,143,110,.25)"/><ellipse cx="230" cy="240" rx="58" ry="90" fill="rgba(107,143,110,.3)"/><circle cx="160" cy="140" r="24" fill="rgba(196,125,114,.5)"/><circle cx="105" cy="165" r="18" fill="rgba(184,144,64,.5)"/><circle cx="240" cy="188" r="20" fill="rgba(196,125,114,.4)"/></svg>
+      <div class="gi-body"><div class="gi-medium">Watercolour &middot; Painting</div><div class="gi-title">Free Slot</div><div class="gi-foot"><span>Anna C.</span><button class="gi-like" onclick="event.stopPropagation();likeIt(this)">&#9825;</button></div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SUBMIT YOUR WORK + PAYPAL PAYMENT
+════════════════════════════════════════════ -->
+<section class="upload-sec" id="uploadSec">
+  <div class="upload-inner">
+
+    <div class="upload-top">
+      <!-- LEFT: pitch + perks -->
+      <div class="upload-pitch">
+        <p class="section-label">Submit Your Work</p>
+        <h2>Your work<br><em>belongs here.</em></h2>
+        <p>Submit your original artwork to the Lumetriq community gallery. All mediums and skill levels welcome. Listing is <strong>free during our launch period</strong>. Submit your work and we will review it within 24 hours.</p>
+        <div class="perk"><span class="perk-check">&#10003;</span>Visible to thousands of artists and collectors</div>
+        <div class="perk"><span class="perk-check">&#10003;</span>All mediums and skill levels welcome</div>
+        <div class="perk"><span class="perk-check">&#10003;</span>Community likes and feedback on your work</div>
+        <div class="perk"><span class="perk-check">&#10003;</span>Link to your website or shop listing</div>
+        <div class="perk"><span class="perk-check">&#10003;</span>Reviewed and live within 24 hours</div>
+      </div>
+      <!-- RIGHT: steps -->
+      <div>
+        <div class="steps-label">How it works</div>
+        <div class="pay-steps">
+          <div class="pay-step"><div class="pay-step-num">1</div><div class="pay-step-title">Fill in your details</div><div class="pay-step-body">Enter your title, medium, name, and description in the form below.</div></div>
+          <div class="pay-step"><div class="pay-step-num">2</div><div class="pay-step-title">Confirm free submission</div><div class="pay-step-body">Click the submit button below to confirm your free listing.</div></div>
+          <div class="pay-step"><div class="pay-step-num">3</div><div class="pay-step-title">Email your artwork image</div><div class="pay-step-body">Email your image file to <strong><a href="mailto:lumetriqartstudios@gmail.com">lumetriqartstudios@gmail.com</a></strong> with your PayPal transaction ID. We&rsquo;ll publish within 24 hours.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THE FORM -->
+    <div class="submission-card">
+      <h3>&#10022; Artwork Submission</h3>
+      <p>Complete the form below. The PayPal payment button will appear once all required fields are filled. After payment, email your artwork image file to <strong><a href="mailto:lumetriqartstudios@gmail.com">lumetriqartstudios@gmail.com</a></strong> along with your PayPal transaction reference number.</p>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>Title of Work *</label>
+          <input type="text" id="artTitle" placeholder="e.g. Morning Light Through Linen" maxlength="120"/>
+        </div>
+        <div class="field">
+          <label>Your Display Name *</label>
+          <input type="text" id="artArtist" placeholder="Name shown publicly in gallery" maxlength="80"/>
+        </div>
+        <div class="field">
+          <label>Medium *</label>
+          <select id="artMedium">
+            <option value="">Select medium&hellip;</option>
+            <option>Watercolour</option><option>Oil Paint</option><option>Acrylic</option>
+            <option>Gouache</option><option>Graphite / Pencil</option><option>Charcoal</option>
+            <option>Ink / Pen</option><option>Pastel</option><option>Coloured Pencil</option>
+            <option>Digital Photography</option><option>Film Photography</option>
+            <option>Street Photography</option><option>Clay / Ceramics</option>
+            <option>Wood Carving</option><option>Wire Sculpture</option>
+            <option>Linocut / Printmaking</option><option>Screen Print</option>
+            <option>Digital Illustration</option><option>Collage</option>
+            <option>Mixed Media</option><option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Your Email Address *</label>
+          <input type="email" id="artEmail" placeholder="For correspondence only"/>
+        </div>
+        <div class="field field-full">
+          <label>About This Work</label>
+          <textarea id="artDesc" placeholder="Tell us about this piece &mdash; the subject, process, materials, or story behind it. Shown in the gallery lightbox."></textarea>
+        </div>
+        <div class="field field-full">
+          <label>Your Website, Shop, or Instagram (optional)</label>
+          <input type="url" id="artLink" placeholder="https://your-website.com or https://instagram.com/yourhandle"/>
+        </div>
+      </div>
+
+      <!-- LEGAL NOTICE — Australian Consumer Law -->
+      <div class="legal-box">
+        <strong>Payment, Refund &amp; Copyright Policy</strong>
+        Listing is currently free. Future paid listings will be subject to Australian Consumer Law (Competition and Consumer Act 2010, Schedule 2). By proceeding with payment you confirm: (1) you are the sole original creator of the submitted work and hold full copyright; (2) the work does not infringe any third-party intellectual property rights; (3) the work does not contain illegal, offensive, or defamatory content; (4) you grant Lumetriq Art Studios a non-exclusive, royalty-free licence to display the work within this online gallery. Submissions that violate these terms will be rejected and the listing fee forfeited. For disputes or enquiries contact <a href="mailto:lumetriqartstudios@gmail.com" style="color:var(--terra)">lumetriqartstudios@gmail.com</a>. This service is operated under the laws of New South Wales, Australia. Payment is processed securely by PayPal Australia Pty Ltd (ABN&nbsp;93&nbsp;111&nbsp;195&nbsp;389), a regulated financial service provider. Your personal details are handled in accordance with the Australian Privacy Act 1988.
+      </div>
+
+      <div class="proceed-btn-wrap">
+        <button class="btn-fill" id="proceedBtn" onclick="proceedToPayment()">
+          <span>Continue to Payment &rarr;</span>
+        </button>
+        <span class="proceed-note">&#10022; Free listing during launch period &bull; No payment required</span>
+      </div>
+
+      <!-- PAYPAL SECTION — appears after form validated -->
+      <div class="pp-section" id="ppSection">
+        <h4>&#10022; Step 2 &mdash; Confirm Submission</h4>
+        <p>Review your submission details below, then click <strong>Pay Now</strong> to be taken to PayPal&rsquo;s secure checkout. You can pay with your PayPal balance, or any Visa, Mastercard, or American Express card &mdash; no PayPal account required. After payment, note your <strong>PayPal Transaction ID</strong> and email it with your artwork image to <strong><a href="mailto:lumetriqartstudios@gmail.com">lumetriqartstudios@gmail.com</a></strong>.</p>
+
+        <div class="pp-summary">
+          <div class="pp-summary-row">
+            <span class="pp-summary-label">Artwork</span>
+            <span class="pp-summary-value" id="ppSummaryTitle">&mdash;</span>
+          </div>
+          <div class="pp-summary-row">
+            <span class="pp-summary-label">Artist</span>
+            <span class="pp-summary-value" id="ppSummaryArtist">&mdash;</span>
+          </div>
+          <div class="pp-summary-row">
+            <span class="pp-summary-label">Medium</span>
+            <span class="pp-summary-value" id="ppSummaryMedium">&mdash;</span>
+          </div>
+          <div class="pp-summary-row">
+            <span class="pp-summary-label">Listing Fee</span>
+            <span class="pp-summary-total">$0.00 AUD</span>
+          </div>
+        </div>
+
+        <div class="pp-btn-area">
+          <!--
+          ════════════════════════════════════════════════════════════
+          PAYPAL SETUP INSTRUCTIONS — DO THIS BEFORE GOING LIVE:
+
+          Option A (Recommended): PayPal Standard Button
+          1. Log in at paypal.com/au with your Business account
+          2. Go to: Tools > PayPal Buttons > Create new button
+          3. Choose button type: "Buy Now"
+          4. Fill in:
+               Item name: Lumetriq Gallery Listing Fee
+               Price: 5.00
+               Currency: AUD
+          5. Under "Customise advanced features":
+               - Return URL: https://yourdomain.com/gallery.html?submitted=1
+               - Cancel URL: https://yourdomain.com/gallery.html
+               - Shipping: OFF (no physical item)
+          6. Copy the generated <form> HTML and replace the form below
+
+          Option B: Replace the two placeholders below:
+          - YOUR_PAYPAL_BUSINESS_EMAIL  → your PayPal business email
+          - https://YOUR-DOMAIN.com     → your actual live website URL
+
+          Note: The PayPal button will not work until you replace
+          YOUR_PAYPAL_BUSINESS_EMAIL with your real PayPal email.
+          ════════════════════════════════════════════════════════════
+          -->
+          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" id="ppForm">
+            <!-- PayPal command -->
+            <input type="hidden" name="cmd" value="_xclick"/>
+            <!-- YOUR PAYPAL BUSINESS EMAIL — replace this -->
+            <input type="hidden" name="business" value="YOUR_PAYPAL_BUSINESS_EMAIL"/>
+            <!-- Australian locale -->
+            <input type="hidden" name="lc" value="AU"/>
+            <!-- Item details — filled dynamically by JS -->
+            <input type="hidden" name="item_name" id="pp_name" value="Lumetriq Gallery Listing Fee"/>
+            <input type="hidden" name="item_number" id="pp_num" value="GALLERY-001"/>
+            <!-- Fixed price in AUD -->
+            <input type="hidden" name="amount" value="0.00"/>
+            <input type="hidden" name="currency_code" value="AUD"/>
+            <!-- No shipping required -->
+            <input type="hidden" name="no_shipping" value="1"/>
+            <!-- Note field label shown to buyer on PayPal -->
+            <input type="hidden" name="cn" value="Artwork title and artist name"/>
+            <!-- Return URLs — replace YOUR-DOMAIN with your real domain -->
+            <input type="hidden" name="return" value="https://YOUR-DOMAIN.com/gallery.html?submitted=1"/>
+            <input type="hidden" name="cancel_return" value="https://YOUR-DOMAIN.com/gallery.html"/>
+            <input type="hidden" name="rm" value="2"/>
+            <!-- PayPal tracking -->
+            <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHostedGuest"/>
+            <!-- Official PayPal Australia hosted button -->
+            <input type="image"
+              src="https://www.paypalobjects.com/en_AU/i/btn/btn_buynowCC_LG.gif"
+              border="0"
+              name="submit"
+              alt="Confirm free gallery submission"/>
+            <img alt="" border="0"
+              src="https://www.paypalobjects.com/en_AU/i/scr/pixel.gif"
+              width="1" height="1"/>
+          </form>
+
+          <p class="pp-secure-note">
+            Free listing &bull; No payment required during launch period.<br>
+            <strong>Email your artwork image to <a href="mailto:lumetriqartstudios@gmail.com">lumetriqartstudios@gmail.com</a> to complete your submission.</strong>
+          </p>
+        </div>
+      </div><!-- /pp-section -->
+
+    </div><!-- /submission-card -->
+  </div><!-- /upload-inner -->
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="if(event.target===this)closeLB()">
+  <button class="lb-close" onclick="closeLB()">&#10005;</button>
+  <div class="lb-inner">
+    <div class="lb-img" id="lbImg"></div>
+    <div class="lb-info">
+      <div class="lb-medium" id="lbMedium"></div>
+      <div class="lb-title" id="lbTitle"></div>
+      <div class="lb-artist" id="lbArtist"></div>
+      <div class="lb-desc" id="lbDesc"></div>
+      <a href="shop.html" class="btn-line" style="font-size:0.62rem;padding:9px 16px;display:inline-block">Buy a Print &rarr;</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><div class="footer-brand-name">&#10022; Lumetriq Art Studios</div><p>A creative community for drawing, painting, photography, sculpture, and film. Every mark matters here.</p></div>
+    <div class="footer-col"><h5>Create</h5><ul><li><a href="ideas.html">Idea Generator</a></li><li><a href="assistant.html">Art Assistant</a></li><li><a href="tutorials.html">Tutorials</a></li></ul></div>
+    <div class="footer-col"><h5>Community</h5><ul><li><a href="gallery.html">Gallery</a></li><li><a href="shop.html">Art Shop</a></li></ul></div>
+    <div class="footer-col"><h5>About</h5><ul><li><a href="index.html#about">About</a></li><li><a href="mailto:lumetriqartstudios@gmail.com">Contact</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">&copy; 2025 Lumetriq Art Studios. Operated under the laws of New South Wales, Australia.</span>
+    <div class="footer-pills"><span class="footer-pill">Drawing</span><span class="footer-pill">Painting</span><span class="footer-pill">Photography</span><span class="footer-pill">Sculpture</span><span class="footer-pill">Film</span></div>
+  </div>
+</footer>
+
+<script>
+// Show success toast on PayPal return
+if (new URLSearchParams(window.location.search).get('submitted') === '1') {
+  setTimeout(() => {
+    toast('&#10022; Payment confirmed! Now email your artwork image + transaction ID to lumetriqartstudios@gmail.com');
+    document.getElementById('uploadSec').scrollIntoView({ behavior: 'smooth' });
+  }, 700);
+}
+
+// Gallery filter
+function doFilter(cat, btn) {
+  document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  let n = 0;
+  document.querySelectorAll('.gal-item').forEach(i => {
+    const show = cat === 'all' || i.dataset.cat === cat;
+    i.style.display = show ? '' : 'none';
+    if (show) n++;
+  });
+  document.getElementById('galCount').textContent = n + ' works';
+}
+
+// Like button
+function likeIt(btn) {
+  if (btn.classList.contains('liked')) return;
+  btn.classList.add('liked');
+  btn.textContent = '\u2665';
+  toast('Liked!');
+}
+
+// Lightbox — cache SVGs on page load
+const svgCache = {};
+document.querySelectorAll('.gal-item svg[id]').forEach(s => { svgCache[s.id] = s.outerHTML; });
+
+function openLB(title, medium, artist, desc, key) {
+  document.getElementById('lbTitle').innerHTML  = title;
+  document.getElementById('lbMedium').innerHTML = medium;
+  document.getElementById('lbArtist').textContent = 'By ' + artist;
+  document.getElementById('lbDesc').textContent   = desc;
+  document.getElementById('lbImg').innerHTML      = svgCache['sv-' + key] || '';
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLB() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Form validation → reveal PayPal button
+function proceedToPayment() {
+  const title  = document.getElementById('artTitle').value.trim();
+  const artist = document.getElementById('artArtist').value.trim();
+  const medium = document.getElementById('artMedium').value;
+  const email  = document.getElementById('artEmail').value.trim();
+
+  if (!title)                      { toast('Please enter the title of your work.'); return; }
+  if (!artist)                     { toast('Please enter your display name.'); return; }
+  if (!medium)                     { toast('Please select your medium.'); return; }
+  if (!email || !email.includes('@')) { toast('Please enter a valid email address.'); return; }
+
+  // Fill PayPal item details dynamically
+  const itemName = ('Gallery Listing: ' + title + ' by ' + artist).substring(0, 127);
+  document.getElementById('pp_name').value = itemName;
+  document.getElementById('pp_num').value  = 'GAL-' + Date.now();
+
+  // Fill summary panel
+  document.getElementById('ppSummaryTitle').textContent  = title;
+  document.getElementById('ppSummaryArtist').textContent = artist;
+  document.getElementById('ppSummaryMedium').textContent = medium;
+
+  // Hide proceed bu

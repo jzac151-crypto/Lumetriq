@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Idea Generator — Lumetriq Art Studios</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--paper:#f5f0e8;--paper-dark:#ede6d6;--paper-warm:#faf6ee;--ink:#2b2620;--ink-mid:#5a5048;--ink-faint:#9a8e82;--rule:#ddd4c2;--rule-faint:#ece6d8;--terra:#b8673a;--sage:#6b8f6e;--slate:#7280a0;--blush:#c47d72;--mustard:#b89040;--charcoal:#3a3530;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{background:var(--paper);font-family:'Lora',Georgia,serif;color:var(--ink);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.045;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)'/%3E%3C/svg%3E");}
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:repeating-linear-gradient(transparent,transparent 28px,rgba(180,162,136,0.14) 28px,rgba(180,162,136,0.14) 29px);}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 52px;height:64px;background:rgba(245,240,232,0.92);backdrop-filter:blur(10px);border-bottom:1.5px solid var(--rule);}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:400;letter-spacing:0.05em;color:var(--ink);text-decoration:none;}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-family:'Space Mono',monospace;font-size:0.66rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);text-decoration:none;transition:color 0.2s;position:relative;}
+.nav-links a:hover{color:var(--ink);}
+.nav-links a.active{color:var(--ink);}
+.nav-links a.active::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1.5px;background:var(--terra);border-radius:1px;}
+.nav-join{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.09em;text-transform:uppercase;color:var(--paper);background:var(--ink);padding:9px 18px;border-radius:2px;text-decoration:none;border:1.5px solid var(--ink);transition:all 0.2s;}
+.nav-join:hover{background:var(--terra);border-color:var(--terra);}
+.btn-fill{font-family:'Lora',serif;font-style:italic;font-size:1.05rem;color:var(--paper);background:var(--ink);padding:14px 32px;border-radius:2px;text-decoration:none;border:1.5px solid var(--ink);transition:all 0.25s;display:inline-block;position:relative;overflow:hidden;}
+.btn-fill::before{content:'';position:absolute;inset:0;background:var(--terra);transform:translateX(-101%);transition:transform 0.28s ease;}
+.btn-fill:hover::before{transform:translateX(0);}
+.btn-fill span{position:relative;z-index:1;}
+.section-label{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--terra);margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+.section-label::before{content:'';display:block;width:22px;height:1.5px;background:var(--terra);}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* PAGE HEADER */
+.page-header{position:relative;z-index:1;padding:120px 52px 60px;background:var(--paper);border-bottom:1.5px solid var(--rule);overflow:hidden;}
+.ph-ghost{position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-family:'Playfair Display',serif;font-size:clamp(90px,14vw,190px);font-weight:700;font-style:italic;color:transparent;-webkit-text-stroke:1px rgba(180,162,136,0.12);pointer-events:none;user-select:none;white-space:nowrap;}
+.ph-label{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--terra);margin-bottom:20px;display:flex;align-items:center;gap:10px;opacity:0;animation:up 0.6s 0.1s ease forwards;}
+.ph-label::before{content:'';display:block;width:28px;height:1.5px;background:var(--terra);}
+.ph-h1{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,4.2rem);font-weight:700;line-height:1.04;letter-spacing:-0.01em;margin-bottom:18px;opacity:0;animation:up 0.6s 0.25s ease forwards;}
+.ph-h1 em{font-style:italic;color:var(--terra);}
+.ph-body{font-size:1.1rem;line-height:1.8;color:var(--ink-mid);max-width:520px;opacity:0;animation:up 0.6s 0.4s ease forwards;}
+
+/* NOTICE BANNER */
+.ai-notice{position:relative;z-index:1;background:var(--paper-dark);border-bottom:1.5px solid var(--rule);padding:14px 52px;display:flex;align-items:center;gap:14px;}
+.ai-notice-icon{font-size:1.1rem;flex-shrink:0;}
+.ai-notice p{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.04em;color:var(--ink-mid);line-height:1.6;}
+.ai-notice a{color:var(--terra);text-decoration:none;}
+.ai-notice a:hover{text-decoration:underline;}
+
+/* CONTROLS */
+.controls-wrap{position:relative;z-index:1;padding:44px 52px 0;}
+.controls-card{background:var(--paper-warm);border:1.5px solid var(--rule);border-radius:2px;padding:36px 40px;box-shadow:3px 4px 0 var(--rule),6px 8px 0 rgba(180,162,136,0.1);position:relative;}
+.controls-card::before{content:'&#10022;';position:absolute;top:-11px;left:32px;background:var(--paper);padding:0 8px;font-size:0.72rem;color:var(--terra);}
+.controls-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:24px;}
+.field label{display:block;font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:7px;}
+.field select{width:100%;border:1.5px solid var(--rule);border-radius:2px;padding:10px 13px;background:var(--paper);font-family:'Lora',serif;font-size:0.95rem;color:var(--ink);outline:none;transition:border-color 0.2s;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239a8e82' stroke-width='1.5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:34px;}
+.field select:focus{border-color:var(--terra);}
+.mood-row{margin-bottom:24px;}
+.mood-row label{display:block;font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:10px;}
+.mood-tags{display:flex;flex-wrap:wrap;gap:7px;}
+.mood-tag{padding:6px 14px;border:1.5px solid var(--rule);border-radius:100px;font-family:'Lora',serif;font-size:0.9rem;color:var(--ink-mid);cursor:pointer;background:var(--paper);transition:all 0.18s;user-select:none;}
+.mood-tag:hover{border-color:var(--terra);color:var(--terra);}
+.mood-tag.on{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+.gen-btn{width:100%;padding:16px;background:var(--ink);color:var(--paper);border:none;border-radius:2px;font-family:'Playfair Display',serif;font-style:italic;font-size:1.15rem;cursor:pointer;transition:all 0.25s;position:relative;overflow:hidden;}
+.gen-btn::before{content:'';position:absolute;inset:0;background:var(--terra);transform:translateX(-101%);transition:transform 0.3s ease;}
+.gen-btn:hover::before{transform:translateX(0);}
+.gen-btn span{position:relative;z-index:1;}
+.gen-btn:disabled{opacity:0.55;cursor:not-allowed;}
+.gen-btn:disabled::before{display:none;}
+
+/* RESULTS */
+.results-wrap{position:relative;z-index:1;padding:40px 52px 80px;}
+.results-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;}
+.results-lbl{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-faint);}
+.results-count{font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--terra);}
+.ideas-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
+@keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.idea-card{background:var(--paper-warm);border:1.5px solid var(--rule);border-radius:2px;padding:24px 26px;position:relative;transition:transform 0.2s,box-shadow 0.2s;overflow:hidden;animation:cardIn 0.4s ease both;}
+.idea-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(43,38,32,0.09);}
+.idea-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2.5px;background:var(--terra);}
+.idea-badge{display:inline-block;font-family:'Space Mono',monospace;font-size:0.56rem;letter-spacing:0.1em;text-transform:uppercase;padding:3px 9px;border-radius:100px;margin-bottom:11px;background:rgba(184,103,58,0.09);color:var(--terra);border:1px solid rgba(184,103,58,0.2);}
+.badge-d{background:rgba(43,38,32,0.07);color:var(--ink-mid);border-color:rgba(43,38,32,0.15);}
+.badge-p{background:rgba(107,143,110,0.09);color:var(--sage);border-color:rgba(107,143,110,0.2);}
+.badge-ph{background:rgba(114,128,160,0.09);color:var(--slate);border-color:rgba(114,128,160,0.2);}
+.badge-f{background:rgba(90,64,112,0.09);color:#5a4070;border-color:rgba(90,64,112,0.2);}
+.badge-s{background:rgba(184,144,64,0.09);color:var(--mustard);border-color:rgba(184,144,64,0.2);}
+.idea-title{font-family:'Playfair Display',serif;font-size:1.08rem;font-weight:700;line-height:1.3;color:var(--ink);margin-bottom:10px;}
+.idea-desc{font-size:0.93rem;line-height:1.7;color:var(--ink-mid);margin-bottom:14px;}
+.idea-meta{display:flex;gap:14px;padding-top:12px;border-top:1px dashed var(--rule);}
+.idea-meta span{font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--ink-faint);}
+.save-btn{position:absolute;top:14px;right:14px;background:none;border:none;cursor:pointer;font-size:0.95rem;opacity:0.35;transition:opacity 0.18s,transform 0.18s;padding:4px;}
+.save-btn:hover{opacity:1;transform:scale(1.15);}
+.save-btn.saved{opacity:1;}
+.empty-state{text-align:center;padding:64px 20px;border:2px dashed var(--rule);border-radius:2px;}
+.empty-icon{font-size:2.4rem;margin-bottom:14px;}
+.empty-state p{font-style:italic;color:var(--ink-faint);font-size:1.05rem;line-height:1.7;}
+.loading-state{text-align:center;padding:64px 20px;}
+.loading-quill{display:block;font-size:2.2rem;margin-bottom:14px;animation:quill 1.4s ease-in-out infinite;}
+@keyframes quill{0%,100%{transform:rotate(-8deg) translateY(0)}50%{transform:rotate(8deg) translateY(-6px)}}
+.loading-txt{font-style:italic;color:var(--ink-faint);font-size:1.05rem;animation:fade 1.5s ease-in-out infinite;}
+@keyframes fade{0%,100%{opacity:0.4}50%{opacity:1}}
+.error-state{background:rgba(184,103,58,0.07);border:1.5px solid rgba(184,103,58,0.25);border-radius:2px;padding:20px 24px;color:var(--terra);}
+.error-state strong{display:block;margin-bottom:6px;}
+.shelf{margin-top:44px;padding-top:28px;border-top:1.5px solid var(--rule);}
+.shelf-lbl{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:14px;}
+.shelf-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{background:var(--paper-dark);border:1.5px solid var(--rule);border-radius:2px;padding:6px 12px;font-size:0.9rem;color:var(--ink-mid);display:flex;align-items:center;gap:9px;}
+.chip-x{background:none;border:none;cursor:pointer;color:var(--ink-faint);font-size:0.75rem;transition:color 0.18s;}
+.chip-x:hover{color:var(--terra);}
+footer{position:relative;z-index:1;background:var(--ink);color:#f0ebe0;padding:52px 52px 32px;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;margin-bottom:44px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,0.09);}
+.footer-brand-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:400;letter-spacing:0.05em;margin-bottom:12px;}
+.footer-brand p{font-size:0.92rem;line-height:1.7;color:rgba(240,235,224,0.45);max-width:240px;}
+.footer-col h5{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:rgba(240,235,224,0.35);margin-bottom:14px;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.footer-col ul a{font-size:0.92rem;color:rgba(240,235,224,0.6);text-decoration:none;transition:color 0.2s;}
+.footer-col ul a:hover{color:var(--terra);}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.footer-copy{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.07em;color:rgba(240,235,224,0.25);}
+.footer-pills{display:flex;gap:10px;flex-wrap:wrap;}
+.footer-pill{font-family:'Space Mono',monospace;font-size:0.56rem;letter-spacing:0.06em;text-transform:uppercase;padding:4px 11px;border-radius:100px;border:1px solid rgba(255,255,255,0.1);color:rgba(240,235,224,0.3);}
+@media(max-width:960px){nav{padding:0 24px;}.nav-links{display:none;}.page-header,.ai-notice,.controls-wrap,.results-wrap{padding-left:24px;padding-right:24px;}.controls-grid{grid-template-columns:1fr 1fr;}.ideas-grid{grid-template-columns:1fr;}footer{padding:40px 24px 28px;}.footer-grid{grid-template-columns:1fr 1fr;gap:28px;}}
+@media(max-width:600px){.controls-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg width="28" height="28" viewBox="0 0 30 30" fill="none"><path d="M15 4 L24 22 L15 19 L6 22 Z" stroke="#2b2620" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M15 19 L15 27" stroke="#2b2620" stroke-width="1.4" stroke-linecap="round"/><path d="M10 16 Q15 14 20 16" stroke="#b8673a" stroke-width="1.2" fill="none"/></svg>
+    Lumetriq Art Studios
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="ideas.html" class="active">Idea Generator</a></li>
+    <li><a href="tutorials.html">Tutorials</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="assistant.html">Art Assistant</a></li>
+  </ul>
+  <a href="shop.html" class="nav-join">Shop Prints</a>
+</nav>
+
+<header class="page-header">
+  <div class="ph-ghost">Create</div>
+  <p class="ph-label">Idea Generator</p>
+  <h1 class="ph-h1">What will you<br><em>make today?</em></h1>
+  <p class="ph-body">Coming Soon!</p>
+</header>
+
+<div class="ai-notice">
+  <span class="ai-notice-icon">&#10022;</span>
+  <p>The AI generate button requires the backend server to be running. If you&rsquo;re viewing this on Netlify without a server, use the <strong>built-in ideas below</strong> instead &mdash; or <a href="https://replit.com" target="_blank">deploy to Replit</a> to enable AI generation.</p>
+</div>
+
+<div class="controls-wrap">
+  <div class="controls-card">
+    <div class="controls-grid">
+      <div class="field"><label>Medium</label><select id="medium">
+        <option value="any">Any medium</option>
+        <optgroup label="Drawing"><option value="graphite">Graphite / Pencil</option><option value="charcoal">Charcoal</option><option value="ink">Ink &amp; Pen</option><option value="pastel">Pastels</option><option value="coloured pencil">Coloured Pencil</option></optgroup>
+        <optgroup label="Painting"><option value="watercolour">Watercolour</option><option value="oil">Oil Paint</option><option value="acrylic">Acrylic</option><option value="gouache">Gouache</option></optgroup>
+        <optgroup label="Photography"><option value="digital photography">Digital Photography</option><option value="film photography">Film Photography</option><option value="street photography">Street Photography</option><option value="macro photography">Macro Photography</option></optgroup>
+        <optgroup label="Sculpture"><option value="clay sculpture">Clay / Ceramics</option><option value="wire sculpture">Wire Sculpture</option><option value="wood carving">Wood Carving</option><option value="found object">Found Object</option></optgroup>
+        <optgroup label="Other"><option value="linocut">Linocut / Printmaking</option><option value="collage">Collage</option><option value="digital illustration">Digital Illustration</option><option value="textile">Textile / Fabric</option></optgroup>
+      </select></div>
+      <div class="field"><label>Difficulty</label><select id="difficulty">
+        <option value="any level">Any level</option>
+        <option value="complete beginner">Complete Beginner</option>
+        <option value="beginner">Beginner</option>
+        <option value="intermediate">Intermediate</option>
+        <option value="advanced">Advanced</option>
+      </select></div>
+      <div class="field"><label>Time Available</label><select id="time">
+        <option value="any duration">Any duration</option>
+        <option value="under 10 minutes">Under 10 min</option>
+        <option value="15 to 30 minutes">15&ndash;30 min</option>
+        <option value="30 to 60 minutes">30&ndash;60 min</option>
+        <option value="1 to 2 hours">1&ndash;2 hours</option>
+        <option value="half a day">Half a day</option>
+        <option value="a full day or more">Full day+</option>
+      </select></div>
+      <div class="field"><label>Subject</label><select id="subject">
+        <option value="any subject">Any subject</option>
+        <option value="portrait or figure">Portrait / Figure</option>
+        <option value="landscape or nature">Landscape / Nature</option>
+        <option value="still life">Still Life</option>
+        <option value="urban or architecture">Urban / Architecture</option>
+        <option value="abstract">Abstract</option>
+        <option value="animals">Animals</option>
+        <option value="botanical">Botanical / Plants</option>
+      </select></div>
+    </div>
+    <div class="mood-row">
+      <label>Mood &mdash; pick any that resonate</label>
+      <div class="mood-tags">
+        <button class="mood-tag" data-v="peaceful">Peaceful</button>
+        <button class="mood-tag" data-v="dramatic">Dramatic</button>
+        <button class="mood-tag" data-v="whimsical">Whimsical</button>
+        <button class="mood-tag" data-v="dark and moody">Dark &amp; Moody</button>
+        <button class="mood-tag" data-v="bright and joyful">Bright &amp; Joyful</button>
+        <button class="mood-tag" data-v="nostalgic">Nostalgic</button>
+        <button class="mood-tag" data-v="experimental">Experimental</button>
+        <button class="mood-tag" data-v="minimalist">Minimalist</button>
+        <button class="mood-tag" data-v="raw and unpolished">Raw</button>
+        <button class="mood-tag" data-v="loose and gestural">Gestural</button>
+      </div>
+    </div>
+    <button class="gen-btn" id="genBtn"><span>&#10022; Generate 6 Ideas</span></button>
+  </div>
+</div>
+
+<section class="results-wrap">
+  <div class="results-hdr">
+    <span class="results-lbl">Your Ideas</span>
+    <span class="results-count" id="resCount"></span>
+  </div>
+  <div id="resultsArea">
+    <div class="empty-state">
+      <div class="empty-icon">&#128196;</div>
+      <p>Set your filters above and click Generate.<br>Or browse the built-in ideas below.</p>
+    </div>
+  </div>
+  <div id="shelfWrap" style="display:none" class="shelf">
+    <div class="shelf-lbl">&#128204; Saved Ideas</div>
+    <div class="shelf-chips" id="shelfChips"></div>
+  </div>
+
+  <!-- BUILT-IN IDEAS — always work, no server needed -->
+  <div style="margin-top:56px;padding-top:36px;border-top:1.5px solid var(--rule)">
+    <p class="section-label">Always-on Inspiration</p>
+    <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;line-height:1.1;margin-bottom:28px">Hand-picked ideas <em style="font-style:italic;color:var(--terra)">for right now.</em></h2>
+    <div class="ideas-grid">
+      <div class="idea-card" style="animation-delay:0s"><span class="idea-badge badge-d">Charcoal Drawing</span><div class="idea-title">Draw your non-dominant hand holding something small</div><div class="idea-desc">Place a coin, key, or pebble in your weaker hand and draw it from observation. Focus on the gesture of the fingers, not the object itself.</div><div class="idea-meta"><span>&#8987; 20 minutes</span><span>&#9672; Beginner</span></div></div>
+      <div class="idea-card" style="animation-delay:0.07s"><span class="idea-badge">Watercolour</span><div class="idea-title">Paint the view from your window right now</div><div class="idea-desc">Whatever is outside — grey sky, brick wall, or garden — paint it with loose wet-on-wet washes. The constraint of subject matter is the entire challenge.</div><div class="idea-meta"><span>&#8987; 30 minutes</span><span>&#9672; Any level</span></div></div>
+      <div class="idea-card" style="animation-delay:0.14s"><span class="idea-badge badge-ph">Photography</span><div class="idea-title">Shoot 10 images without moving your feet</div><div class="idea-desc">Stand in one spot and make 10 completely different photographs. Zoom with your body &mdash; crouch, stretch, turn. Forces creative problem solving.</div><div class="idea-meta"><span>&#8987; 15 minutes</span><span>&#9672; Any level</span></div></div>
+      <div class="idea-card" style="animation-delay:0.21s"><span class="idea-badge badge-d">Ink Drawing</span><div class="idea-title">Draw a familiar room from memory, then compare</div><div class="idea-desc">Draw your kitchen or bedroom from memory first. Then sit in the room and draw it again. Compare the two &mdash; the gaps reveal your visual assumptions.</div><div class="idea-meta"><span>&#8987; 45 minutes</span><span>&#9672; Intermediate</span></div></div>
+      <div class="idea-card" style="animation-delay:0.28s"><span class="idea-badge badge-s">Clay Sculpture</span><div class="idea-title">Sculpt an emotion, not a thing</div><div class="idea-desc">Choose a feeling &mdash; relief, anticipation, grief &mdash; and make a palm-sized abstract form that embodies it. No figures, no objects, just shape and texture.</div><div class="idea-meta"><span>&#8987; 1 hour</span><span>&#9672; Any level</span></div></div>
+      <div class="idea-card" style="animation-delay:0.35s"><span class="idea-badge badge-p">Oil Painting</span><div class="idea-title">Limited palette still life: 3 colours only</div><div class="idea-desc">Set up 3 objects and paint them using only yellow ochre, ultramarine blue, and white. Mix every other colour yourself. Teaches you more about colour than any other exercise.</div><div class="idea-meta"><span>&#8987; 2 hours</span><span>&#9672; Intermediate</span></div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><div class="footer-brand-name">&#10022; Lumetriq Art Studios</div><p>A creative community for drawing, painting, photography, sculpture, and film. Every mark matters here.</p></div>
+    <div class="footer-col"><h5>Create</h5><ul><li><a href="ideas.html">Idea Generator</a></li><li><a href="assistant.html">Art Assistant</a></li><li><a href="tutorials.html">Tutorials</a></li></ul></div>
+    <div class="footer-col"><h5>Community</h5><ul><li><a href="gallery.html">Gallery</a></li><li><a href="shop.html">Art Shop</a></li></ul></div>
+    <div class="footer-col"><h5>About</h5><ul><li><a href="index.html#about">About</a></li><li><a href="mailto:lumetriqartstudios@gmail.com">Contact</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">&copy; 2025 Lumetriq Art Studios. Made for artists.</span>
+    <div class="footer-pills"><span class="footer-pill">Drawing</span><span class="footer-pill">Painting</span><span class="footer-pill">Photography</span><span class="footer-pill">Sculpture</span><span class="footer-pill">Film</span></div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.mood-tag').forEach(t => t.addEventListener('click', () => t.classList.toggle('on')));
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function badgeClass(type){
+  const t=(type||'').toLowerCase();
+  if(t.includes('film')||t.includes('analogue')) return 'badge-f';
+  if(t.includes('photo')) return 'badge-ph';
+  if(t.includes('sculpt')||t.includes('clay')||t.includes('wire')||t.includes('wood')) return 'badge-s';
+  if(t.includes('oil')||t.includes('acrylic')||t.includes('paint')||t.includes('gouache')||t.includes('watercolour')) return 'badge-p';
+  return 'badge-d';
+}
+
+const saved=[];
+function saveIdea(btn,title){
+  if(btn.classList.contains('saved'))return;
+  btn.classList.add('saved');btn.textContent='📌';
+  const sw=document.getElementById('shelfWrap');sw.style.display='block';
+  const chip=document.createElement('div');chip.className='chip';
+  chip.innerHTML=esc(title)+'<button class="chip-x" onclick="this.parentElement.remove();if(!document.querySelectorAll(\'.chip\').length)document.getElementById(\'shelfWrap\').style.display=\'none\'">&#10005;</button>';
+  document.getElementById('shelfChips').appendChild(chip);
+}
+
+async function generate(){
+  const medium=document.getElementById('medium').value;
+  const difficulty=document.getElementById('difficulty').value;
+  const time=document.getElementById('time').value;
+  const subject=document.getElementById('subject').value;
+  const moods=[...document.querySelectorAll('.mood-tag.on')].map(t=>t.dataset.v).join(', ')||'open';
+  const btn=document.getElementById('genBtn');
+  btn.disabled=true;btn.querySelector('span').textContent='Thinking\u2026';
+  document.getElementById('resCount').textContent='';
+  document.getElementById('resultsArea').innerHTML='<div class="loading-state"><span class="loading-quill">&#9998;&#65039;</span><p class="loading-txt">Finding your next masterpiece\u2026</p></div>';
+
+  const prompt=`Generate exactly 6 unique art project ideas. Medium: ${medium}. Difficulty: ${difficulty}. Time: ${time}. Subject: ${subject}. Mood: ${moods}. Return ONLY a valid JSON array, no markdown. Format: [{"title":"4-8 word title","type":"Specific medium","description":"2-3 sentences","difficulty":"Beginner|Intermediate|Advanced","time":"e.g. 45 minutes"}]`;
+
+  try{
+    const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-opus-4-6',max_tokens:1200,messages:[{role:'user',content:prompt}]})});
+    if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.error||'Server error '+res.status);}
+    const data=await res.json();
+    const raw=(data.content?.[0]?.text||'').trim().replace(/^```(?:json)?/,'').replace(/```$/,'').trim();
+    const ideas=JSON.parse(raw);
+    if(!Array.isArray(ideas)||!ideas.length)throw new Error('No ideas returned');
+    document.getElementById('resCount').textContent=ideas.length+' ideas generated';
+    document.getElementById('resultsArea').innerHTML='<div class="ideas-grid">'+ideas.map((idea,i)=>`
+      <div class="idea-card" style="animation-delay:${i*0.07}s">
+        <button class="save-btn" onclick="saveIdea(this,'${esc(idea.title)}')">&#128214;</button>
+        <span class="idea-badge ${badgeClass(idea.type)}">${esc(idea.type||'Art')}</span>
+        <div class="idea-title">${esc(idea.title)}</div>
+        <div class="idea-desc">${esc(idea.description)}</div>
+        <div class="idea-meta"><span>&#8987; ${esc(idea.time||'Varies')}</span><span>&#9672; ${esc(idea.difficulty||'Any level')}</span></div>
+      </div>`).join('')+'</div>';
+  }catch(err){
+    document.getElementById('resCount').textContent='';
+    document.getElementById('resultsArea').innerHTML=`<div class="error-state"><strong>AI generation needs the server running.</strong>The built-in ideas below always work &mdash; scroll down to see them. To enable AI generation, deploy to Replit or run the server locally.</div>`;
+  }finally{btn.disabled=false;btn.querySelector('span').textContent='\u2736 Generate 6 Ideas';}
+}
+
+document.getElementById('genBtn').addEventListener('click',generate);
+const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');}});});
+io.observe(document.querySelector('.page-header'));
+</script>

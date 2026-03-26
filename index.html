@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Lumetriq Art Studios — An Artist’s Help Site</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--paper:#f5f0e8;--paper-dark:#ede6d6;--paper-warm:#faf6ee;--ink:#2b2620;--ink-mid:#5a5048;--ink-faint:#9a8e82;--rule:#ddd4c2;--rule-faint:#ece6d8;--terra:#b8673a;--sage:#6b8f6e;--slate:#7280a0;--blush:#c47d72;--mustard:#b89040;--charcoal:#3a3530;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{background:var(--paper);font-family:'Lora',Georgia,serif;color:var(--ink);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.045;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)'/%3E%3C/svg%3E");}
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:repeating-linear-gradient(transparent,transparent 28px,rgba(180,162,136,0.14) 28px,rgba(180,162,136,0.14) 29px);}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 52px;height:64px;background:rgba(245,240,232,0.92);backdrop-filter:blur(10px);border-bottom:1.5px solid var(--rule);}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:400;letter-spacing:0.05em;color:var(--ink);text-decoration:none;}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-family:'Space Mono',monospace;font-size:0.66rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);text-decoration:none;transition:color 0.2s;position:relative;}
+.nav-links a:hover{color:var(--ink);}
+.nav-links a.active{color:var(--ink);}
+.nav-links a.active::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1.5px;background:var(--terra);border-radius:1px;}
+.nav-join{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.09em;text-transform:uppercase;color:var(--paper);background:var(--ink);padding:9px 18px;border-radius:2px;text-decoration:none;border:1.5px solid var(--ink);transition:all 0.2s;}
+.nav-join:hover{background:var(--terra);border-color:var(--terra);}
+.btn-fill{font-family:'Lora',serif;font-style:italic;font-size:1.05rem;color:var(--paper);background:var(--ink);padding:14px 32px;border-radius:2px;text-decoration:none;border:1.5px solid var(--ink);transition:all 0.25s;display:inline-block;position:relative;overflow:hidden;}
+.btn-fill::before{content:'';position:absolute;inset:0;background:var(--terra);transform:translateX(-101%);transition:transform 0.28s ease;}
+.btn-fill:hover::before{transform:translateX(0);}
+.btn-fill span{position:relative;z-index:1;}
+.btn-line{font-family:'Space Mono',monospace;font-size:0.67rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);background:transparent;padding:14px 24px;border-radius:2px;text-decoration:none;border:1.5px solid var(--rule);transition:all 0.2s;display:inline-block;}
+.btn-line:hover{border-color:var(--ink);}
+.section-label{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--terra);margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+.section-label::before{content:'';display:block;width:22px;height:1.5px;background:var(--terra);}
+.section-h2{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.5vw,2.8rem);font-weight:700;line-height:1.1;margin-bottom:48px;}
+.section-h2 em{font-style:italic;}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.reveal.in{opacity:1;transform:none;}
+.stagger>*{opacity:0;transform:translateY(18px);transition:opacity 0.5s ease,transform 0.5s ease;}
+.stagger.in>*:nth-child(1){opacity:1;transform:none;transition-delay:0.04s;}
+.stagger.in>*:nth-child(2){opacity:1;transform:none;transition-delay:0.12s;}
+.stagger.in>*:nth-child(3){opacity:1;transform:none;transition-delay:0.20s;}
+.stagger.in>*:nth-child(4){opacity:1;transform:none;transition-delay:0.28s;}
+.stagger.in>*:nth-child(5){opacity:1;transform:none;transition-delay:0.36s;}
+.stagger.in>*:nth-child(6){opacity:1;transform:none;transition-delay:0.44s;}
+.page-header{position:relative;z-index:1;padding:120px 52px 60px;background:var(--paper);border-bottom:1.5px solid var(--rule);overflow:hidden;}
+.ph-ghost{position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-family:'Playfair Display',serif;font-size:clamp(90px,14vw,190px);font-weight:700;font-style:italic;color:transparent;-webkit-text-stroke:1px rgba(180,162,136,0.12);pointer-events:none;user-select:none;white-space:nowrap;}
+.ph-label{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--terra);margin-bottom:20px;display:flex;align-items:center;gap:10px;opacity:0;animation:up 0.6s 0.1s ease forwards;}
+.ph-label::before{content:'';display:block;width:28px;height:1.5px;background:var(--terra);}
+.ph-h1{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,4.2rem);font-weight:700;line-height:1.04;letter-spacing:-0.01em;margin-bottom:18px;opacity:0;animation:up 0.6s 0.25s ease forwards;}
+.ph-h1 em{font-style:italic;color:var(--terra);}
+.ph-body{font-size:1.1rem;line-height:1.8;color:var(--ink-mid);max-width:520px;margin-bottom:30px;opacity:0;animation:up 0.6s 0.4s ease forwards;}
+.ph-actions{display:flex;gap:12px;flex-wrap:wrap;opacity:0;animation:up 0.6s 0.55s ease forwards;}
+.quote-band{position:relative;z-index:1;background:var(--charcoal);padding:72px 52px;text-align:center;overflow:hidden;}
+.quote-band::before{content:'"';position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-family:'Playfair Display',serif;font-size:220px;font-weight:700;color:rgba(255,255,255,0.04);line-height:1;pointer-events:none;}
+.quote-text{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(1.3rem,2.8vw,1.9rem);line-height:1.55;color:#f0ebe0;max-width:640px;margin:0 auto 20px;}
+.quote-attr{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(240,235,224,0.4);}
+footer{position:relative;z-index:1;background:var(--ink);color:#f0ebe0;padding:52px 52px 32px;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;margin-bottom:44px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,0.09);}
+.footer-brand-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:400;letter-spacing:0.05em;margin-bottom:12px;}
+.footer-brand p{font-size:0.92rem;line-height:1.7;color:rgba(240,235,224,0.45);max-width:240px;}
+.footer-col h5{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:rgba(240,235,224,0.35);margin-bottom:14px;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.footer-col ul a{font-size:0.92rem;color:rgba(240,235,224,0.6);text-decoration:none;transition:color 0.2s;}
+.footer-col ul a:hover{color:var(--terra);}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.footer-copy{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.07em;color:rgba(240,235,224,0.25);}
+.footer-pills{display:flex;gap:10px;flex-wrap:wrap;}
+.footer-pill{font-family:'Space Mono',monospace;font-size:0.56rem;letter-spacing:0.06em;text-transform:uppercase;padding:4px 11px;border-radius:100px;border:1px solid rgba(255,255,255,0.1);color:rgba(240,235,224,0.3);}
+@media(max-width:960px){nav{padding:0 24px;}.nav-links{display:none;}.page-header{padding:100px 24px 52px;}footer{padding:40px 24px 28px;}.footer-grid{grid-template-columns:1fr 1fr;gap:28px;}}
+
+
+.hero{position:relative;z-index:1;min-height:100vh;display:grid;grid-template-columns:1fr 420px;padding-top:64px;overflow:hidden;}
+.hero-left{padding:80px 52px;display:flex;flex-direction:column;justify-content:center;}
+.hero-eyebrow{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--terra);margin-bottom:20px;display:flex;align-items:center;gap:10px;opacity:0;animation:up 0.7s 0.15s ease forwards;}
+.hero-eyebrow::before{content:'';display:block;width:28px;height:1.5px;background:var(--terra);}
+.hero-h1{font-family:'Playfair Display',serif;font-size:clamp(3rem,5.5vw,4.8rem);font-weight:700;line-height:1.05;letter-spacing:-0.01em;margin-bottom:26px;opacity:0;animation:up 0.7s 0.3s ease forwards;}
+.hero-h1 em{font-style:italic;color:var(--terra);}
+.hero-h1 .soft{font-weight:400;}
+.hero-body{font-size:1.15rem;line-height:1.8;color:var(--ink-mid);max-width:460px;margin-bottom:40px;opacity:0;animation:up 0.7s 0.45s ease forwards;}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;opacity:0;animation:up 0.7s 0.6s ease forwards;}
+.hero-community{margin-top:52px;display:flex;align-items:center;opacity:0;animation:up 0.7s 0.75s ease forwards;}
+.avatar-stack{display:flex;}
+.avatar{width:34px;height:34px;border-radius:50%;border:2.5px solid var(--paper);background:var(--rule-faint);margin-left:-8px;display:flex;align-items:center;justify-content:center;font-size:0.75rem;overflow:hidden;}
+.avatar:first-child{margin-left:0;}
+.community-text{margin-left:14px;font-size:0.88rem;color:var(--ink-mid);line-height:1.45;}
+.community-text strong{font-weight:500;color:var(--ink);font-family:'Playfair Display',serif;}
+.hero-right{position:relative;background:var(--paper-dark);border-left:1.5px solid var(--rule);display:flex;align-items:center;justify-content:center;padding:60px 36px;overflow:hidden;}
+.hero-right-bg{position:absolute;inset:0;pointer-events:none;user-select:none;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:200px;font-weight:700;font-style:italic;color:transparent;-webkit-text-stroke:1.5px rgba(180,162,136,0.15);}
+.sketchpad{position:relative;z-index:1;width:100%;max-width:340px;}
+.sketch-card{background:var(--paper-warm);border:1.5px solid var(--rule);border-radius:2px;padding:22px 24px;position:relative;box-shadow:2px 3px 0 var(--rule),4px 6px 0 rgba(180,162,136,0.15);animation:up 0.6s ease both;}
+.sketch-card:nth-child(1){animation-delay:0.5s;}
+.sketch-card:nth-child(2){animation-delay:0.65s;margin-top:18px;}
+.sketch-card:nth-child(3){animation-delay:0.8s;margin-top:18px;}
+.sketch-card-label{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:10px;}
+.sketch-card-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;line-height:1.4;color:var(--ink);margin-bottom:8px;}
+.sketch-card-body{font-size:0.88rem;line-height:1.6;color:var(--ink-mid);}
+.sketch-tag{display:inline-block;margin-top:10px;margin-right:4px;font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.08em;text-transform:uppercase;padding:3px 9px;border-radius:100px;border:1px solid var(--rule);color:var(--ink-faint);}
+.sketch-tag.terra{border-color:rgba(184,103,58,0.3);color:var(--terra);background:rgba(184,103,58,0.06);}
+.sketch-tag.sage{border-color:rgba(107,143,110,0.3);color:var(--sage);background:rgba(107,143,110,0.06);}
+.sketch-tag.slate{border-color:rgba(114,128,160,0.3);color:var(--slate);background:rgba(114,128,160,0.06);}
+.pin{position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:10px;height:10px;background:var(--terra);border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,0.2);}
+.hero-sq{position:absolute;pointer-events:none;opacity:0.2;}
+.torn{position:relative;z-index:2;height:52px;background:var(--paper);margin-top:-2px;}
+.torn svg{display:block;width:100%;height:100%;}
+.pulse{position:relative;z-index:1;padding:80px 52px;}
+.feed-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.feed-card{background:var(--paper-warm);border:1.5px solid var(--rule);border-radius:2px;overflow:hidden;transition:transform 0.22s,box-shadow 0.22s;cursor:pointer;text-decoration:none;color:inherit;display:block;}
+.feed-card:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(43,38,32,0.1);}
+.feed-canvas{width:100%;aspect-ratio:4/3;overflow:hidden;}
+.feed-canvas svg{display:block;width:100%;height:100%;}
+.feed-body{padding:18px 20px;}
+.feed-medium{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:7px;}
+.feed-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;line-height:1.35;color:var(--ink);margin-bottom:8px;}
+.feed-meta{display:flex;align-items:center;gap:14px;margin-top:12px;padding-top:12px;border-top:1px dashed var(--rule);}
+.feed-author{font-size:0.0rem;color:var(--ink-mid);display:flex;align-items:center;gap:6px;}
+.feed-author-dot{width:18px;height:18px;border-radius:50%;background:var(--rule);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.65rem;}
+.feed-likes{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--ink-faint);margin-left:auto;}
+.tools-strip{position:relative;z-index:1;border-top:1.5px solid var(--rule);border-bottom:1.5px solid var(--rule);display:grid;grid-template-columns:repeat(4,1fr);background:var(--paper-dark);}
+.tool-cell{padding:38px 32px;border-right:1.5px solid var(--rule);text-decoration:none;color:inherit;position:relative;overflow:hidden;transition:background 0.2s;}
+.tool-cell:last-child{border-right:none;}
+.tool-cell:hover{background:var(--paper-warm);}
+.tool-cell::after{content:'';position:absolute;bottom:0;left:0;right:100%;height:2px;background:var(--terra);transition:right 0.3s ease;}
+.tool-cell:hover::after{right:0;}
+.tool-cell-icon{margin-bottom:14px;display:block;}
+.tool-cell-name{font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;margin-bottom:7px;color:var(--ink);}
+.tool-cell-desc{font-size:0.88rem;line-height:1.6;color:var(--ink-mid);}
+.tool-cell-arrow{position:absolute;top:36px;right:28px;font-size:0.9rem;color:var(--rule);transition:all 0.2s;}
+.tool-cell:hover .tool-cell-arrow{color:var(--terra);transform:translate(3px,-3px);}
+.learn{position:relative;z-index:1;padding:88px 52px;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;}
+.learn-tips{margin-top:32px;display:flex;flex-direction:column;}
+.tip-row{display:grid;grid-template-columns:44px 1fr;padding:20px 0;border-bottom:1px solid var(--rule-faint);text-decoration:none;color:inherit;transition:all 0.15s;border-radius:2px;}
+.tip-row:first-child{border-top:1px solid var(--rule-faint);}
+.tip-row:hover{background:var(--paper-dark);margin:0 -12px;padding:20px 12px;}
+.tip-num{font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--ink-faint);padding-top:3px;}
+.tip-title{font-family:'Playfair Display',serif;font-size:0.97rem;font-weight:600;margin-bottom:4px;}
+.tip-meta{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--ink-faint);letter-spacing:0.06em;display:flex;gap:10px;}
+.challenge-card{background:var(--paper-dark);border:1.5px solid var(--rule);border-radius:2px;padding:36px;position:relative;overflow:hidden;}
+.challenge-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--terra),var(--blush));}
+.challenge-day{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:16px;}
+.challenge-title{font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:700;line-height:1.2;margin-bottom:14px;}
+.challenge-desc{font-size:0.97rem;line-height:1.7;color:var(--ink-mid);margin-bottom:28px;}
+.challenge-tags{display:flex;gap:8px;margin-bottom:28px;flex-wrap:wrap;}
+.c-tag{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.08em;text-transform:uppercase;padding:4px 10px;border-radius:100px;border:1px solid var(--rule);color:var(--ink-faint);}
+.challenge-bg-num{position:absolute;bottom:-20px;right:16px;font-family:'Playfair Display',serif;font-size:120px;font-weight:700;font-style:italic;color:transparent;-webkit-text-stroke:1.5px rgba(180,162,136,0.22);line-height:1;pointer-events:none;user-select:none;}
+.mediums{position:relative;z-index:1;padding:0 52px 88px;}
+.mediums-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+.medium-card{padding:40px 32px;border:1.5px solid var(--rule);border-radius:2px;position:relative;overflow:hidden;transition:transform 0.22s,box-shadow 0.22s;text-decoration:none;color:inherit;display:block;}
+.medium-card:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(43,38,32,0.09);}
+.medium-card.drawing{background:#fdf6ee;}.medium-card.painting{background:#f3f7f3;}.medium-card.photo{background:#f2f3f8;}.medium-card.sculpt{background:#faf5ee;}.medium-card.film{background:#f5f3fa;}.medium-card.mixed{background:#faf3f5;}
+.medium-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.medium-card.drawing::before{background:var(--terra);}.medium-card.painting::before{background:var(--sage);}.medium-card.photo::before{background:var(--slate);}.medium-card.sculpt::before{background:var(--mustard);}.medium-card.film::before{background:#5a4070;}.medium-card.mixed::before{background:var(--blush);}
+.medium-icon{font-size:2rem;margin-bottom:16px;display:block;}
+.medium-name{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;margin-bottom:10px;}
+.medium-desc{font-size:0.95rem;line-height:1.7;color:var(--ink-mid);margin-bottom:22px;}
+.medium-link{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:color 0.2s;}
+.medium-link:hover{color:var(--terra);}
+.cta{position:relative;z-index:1;padding:96px 52px;text-align:center;}
+.cta::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 65% 55% at 50% 50%,rgba(184,103,58,0.07) 0%,transparent 70%);}
+.cta h2{font-family:'Playfair Display',serif;font-size:clamp(2rem,4.5vw,3.4rem);font-weight:700;line-height:1.1;margin-bottom:18px;}
+.cta h2 em{font-style:italic;color:var(--terra);}
+.cta p{font-size:1.1rem;color:var(--ink-mid);max-width:440px;margin:0 auto 36px;line-height:1.75;}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+@media(max-width:960px){.hero{grid-template-columns:1fr;}.hero-left{padding:80px 24px 48px;}.hero-right{display:none;}.pulse{padding:60px 24px;}.feed-grid{grid-template-columns:1fr 1fr;}.tools-strip{grid-template-columns:1fr 1fr;}.learn{grid-template-columns:1fr;padding:60px 24px;}.mediums{padding:0 24px 60px;}.mediums-grid{grid-template-columns:1fr 1fr;}.cta{padding:70px 24px;}}
+@media(max-width:600px){.feed-grid{grid-template-columns:1fr;}.tools-strip{grid-template-columns:1fr;}.mediums-grid{grid-template-columns:1fr;}.hero-h1{font-size:2.6rem;}}
+
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg width="28" height="28" viewBox="0 0 30 30" fill="none">
+      <path d="M15 4 L24 22 L15 19 L6 22 Z" stroke="#2b2620" stroke-width="1.4" fill="none" stroke-linejoin="round"/>
+      <path d="M15 19 L15 27" stroke="#2b2620" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M10 16 Q15 14 20 16" stroke="#b8673a" stroke-width="1.2" fill="none"/>
+    </svg>
+    Lumetriq Art Studios
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="ideas.html">Idea Generator</a></li>
+    <li><a href="tutorials.html">Tutorials</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="assistant.html">Art Assistant</a></li>
+  </ul>
+  <a href="shop.html" class="nav-join">Shop Prints</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">An artist's help site</p>
+    <h1 class="hero-h1">Where makers<br><em>find each other.</em><br><span class="soft">And their next idea.</span></h1>
+    <p class="hero-body">Lumetriq Art Studios is your creative companion — generate ideas for every medium, learn technique, get AI coaching (coming soon), sell your work, and connect with artists worldwide.</p>
+    <div class="hero-actions">
+      <a href="ideas.html" class="btn-fill"><span>&#10022; Start creating</span></a>
+      <a href="gallery.html" class="btn-line">See the community &rarr;</a>
+    </div>
+    <div class="hero-community">
+      <div class="avatar-stack">
+        <div class="avatar"><svg viewBox="0 0 22 22" fill="none"><circle cx="11" cy="8" r="4" fill="#c4b9aa"/><path d="M3 20 Q11 14 19 20" fill="#c4b9aa"/></svg></div>
+        <div class="avatar" style="background:#e8e0d4"><svg viewBox="0 0 22 22" fill="none"><circle cx="11" cy="8" r="4" fill="#b8a898"/><path d="M3 20 Q11 14 19 20" fill="#b8a898"/></svg></div>
+        <div class="avatar" style="background:#ddd5c8"><svg viewBox="0 0 22 22" fill="none"><circle cx="11" cy="8" r="4" fill="#a89888"/><path d="M3 20 Q11 14 19 20" fill="#a89888"/></svg></div>
+        <div class="avatar" style="background:#d4cabc"><svg viewBox="0 0 22 22" fill="none"><circle cx="11" cy="8" r="4" fill="#9a8878"/><path d="M3 20 Q11 14 19 20" fill="#9a8878"/></svg></div>
+        <div class="avatar" style="background:#ccc0b0;font-family:Space Mono,monospace;font-size:0.5rem;color:#6a5e52;">+k</div>
+      </div>
+      <div class="community-text"><strong>Thousands of artists</strong> already creating<br>every day &mdash; drawing, painting, shooting.</div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-right-bg">&#10022;</div>
+    <svg class="hero-sq" style="top:24px;right:28px;width:80px;" viewBox="0 0 80 50" fill="none"><path d="M4 40 Q20 10 36 30 Q52 50 68 20 Q76 8 80 12" stroke="#ddd4c2" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+    <svg class="hero-sq" style="bottom:40px;left:16px;width:56px;" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="26" stroke="#ddd4c2" stroke-width="1.2" stroke-dasharray="3 3"/></svg>
+    <div class="sketchpad">
+      <div class="sketch-card" style="transform:rotate(-1.5deg)">
+        <div class="pin"></div>
+        <div class="sketch-card-label">Today's community pick</div>
+        <div class="sketch-card-title">Free Slot curtains</div>
+        <div class="sketch-card-body">Free Slot &mdash; Apply for Use</div>
+        <span class="sketch-tag terra">Painting</span><span class="sketch-tag">42 &#10022;</span>
+      </div>
+      <div class="sketch-card" style="transform:rotate(0.8deg)">
+        <div class="sketch-card-label">Trending challenge</div>
+        <div class="sketch-card-title">Draw your hands &mdash; 10 minutes, no erasing</div>
+        <div class="sketch-card-body">200+ artists sharing their attempts this week.</div>
+        <span class="sketch-tag sage">Drawing</span><span class="sketch-tag">Challenge</span>
+      </div>
+      <div class="sketch-card" style="transform:rotate(-0.5deg)">
+        <div class="sketch-card-label">New tutorial</div>
+        <div class="sketch-card-title">Finding stillness in street photography</div>
+        <div class="sketch-card-body">Patience, timing, and letting the scene come to you.</div>
+        <span class="sketch-tag slate">Photography</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="torn"><svg viewBox="0 0 1440 52" preserveAspectRatio="none"><path d="M0,0 L0,28 Q30,38 60,26 Q90,14 130,30 Q165,44 210,28 Q248,14 290,32 Q330,48 380,30 Q420,14 465,34 Q510,50 560,28 Q600,12 650,36 Q695,52 745,30 Q790,12 840,34 Q80,52 935,28 Q975,10 1020,32 Q1060,50 1110,28 Q1148,12 1200,34 Q1245,52 1290,30 Q1340,10 1390,32 L1440,28 L1440,0 Z" fill="#f5f0e8"/></svg></div>
+
+<section class="pulse" id="community">
+  <div class="reveal">
+    <p class="section-label">Community feed</p>
+    <h2 class="section-h2">What artists are <em>making right now.</em></h2>
+  </div>
+  <div class="feed-grid stagger">
+    <a href="gallery.html" class="feed-card">
+      <div class="feed-canvas"><svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="300" fill="#e8dfd0"/><ellipse cx="200" cy="160" rx="120" ry="80" fill="rgba(184,103,58,0.18)"/><ellipse cx="180" cy="140" rx="90" ry="60" fill="rgba(184,103,58,0.12)"/><path d="M100 200 Q200 120 300 180" stroke="rgba(43,38,32,0.25)" stroke-width="2" fill="none"/><circle cx="200" cy="130" r="30" fill="rgba(184,103,58,0.1)" stroke="rgba(184,103,58,0.3)" stroke-width="1"/></svg></div>
+      <div class="feed-body"><div class="feed-medium">Watercolour &middot; Painting</div><div class="feed-title">Free Slot &mdash; Available for use via gallery submission</div><div class="feed-meta"><div class="feed-author"><div class="feed-author-dot">S</div><span>Saoirse M.</span></div><span class="feed-likes">&#9825; 38</span></div></div>
+    </a>
+    <a href="gallery.html" class="feed-card">
+      <div class="feed-canvas"><svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="300" fill="#d8dce8"/><line x1="200" y1="20" x2="200" y2="280" stroke="rgba(114,128,160,0.35)" stroke-width="1.5"/><line x1="20" y1="150" x2="380" y2="150" stroke="rgba(114,128,160,0.35)" stroke-width="1.5"/><rect x="140" y="80" width="120" height="140" fill="none" stroke="rgba(43,38,32,0.3)" stroke-width="1.5"/><circle cx="200" cy="150" r="8" fill="rgba(43,38,32,0.4)"/></svg></div>
+      <div class="feed-body"><div class="feed-medium">Ink &middot; Drawing</div><div class="feed-title">Free Slot&mdash; Available for use via gallery submission</div><div class="feed-meta"><div class="feed-author"><div class="feed-author-dot" style="background:#d8dce8">J</div><span>James O.</span></div><span class="feed-likes">&#9825; 61</span></div></div>
+    </a>
+    <a href="gallery.html" class="feed-card">
+      <div class="feed-canvas"><svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="300" fill="#d4ddd4"/><line x1="150" y1="0" x2="150" y2="300" stroke="rgba(107,143,110,0.25)" stroke-width="1"/><line x1="250" y1="0" x2="250" y2="300" stroke="rgba(107,143,110,0.25)" stroke-width="1"/><ellipse cx="250" cy="113" rx="40" ry="50" fill="rgba(43,38,32,0.15)"/><circle cx="310" cy="70" r="36" fill="rgba(255,255,255,0.18)"/></svg></div>
+      <div class="feed-body"><div class="feed-medium">Street &middot; Photography</div><div class="feed-title">Free Slot &mdash; Available for use via gallery submission</div><div class="feed-meta"><div class="feed-author"><div class="feed-author-dot" style="background:#d4ddd4">P</div><span>Priya N.</span></div><span class="feed-likes">&#9825; 94</span></div></div>
+    </a>
+  </div>
+</section>
+
+<div class="tools-strip stagger">
+  <a href="ideas.html" class="tool-cell"><span class="tool-cell-icon"><svg width="26" height="26" viewBox="0 0 28 28" fill="none"><path d="M14 3 L25 24 L14 21 L3 24 Z" stroke="#b8673a" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M14 21 L14 26" stroke="#b8673a" stroke-width="1.5" stroke-linecap="round"/></svg></span><div class="tool-cell-name">Idea Generator</div><div class="tool-cell-desc">AI-powered prompts for any medium, mood, or time you have.</div><span class="tool-cell-arrow">&#099;</span></a>
+  <a href="tutorials.html" class="tool-cell"><span class="tool-cell-icon"><svg width="26" height="26" viewBox="0 0 28 28" fill="none"><rect x="3" y="5" width="22" height="18" rx="1" stroke="#6b8f6e" stroke-width="1.5" fill="none"/><line x1="3" y1="11" x2="25" y2="11" stroke="#6b8f6e" stroke-width="1"/><line x1="9" y1="5" x2="9" y2="23" stroke="#6b8f6e" stroke-width="1"/></svg></span><div class="tool-cell-name">Tips &amp; Tutorials</div><div class="tool-cell-desc">Technique guides and video walkthroughs for every level.</div><span class="tool-cell-arrow">&#099;</span></a>
+  <a href="shop.html" class="tool-cell"><span class="tool-cell-icon"><svg width="26" height="26" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="11" stroke="#7280a0" stroke-width="1.5" fill="none"/><path d="M10 14 Q14 8 18 14 Q14 20 10 14 Z" fill="none" stroke="#7280a0" stroke-width="1.2"/><circle cx="14" cy="14" r="2.5" fill="#7280a0"/></svg></span><div class="tool-cell-name">Art Shop</div><div class="tool-cell-desc">Browse and buy prints directly from artists.</div><span class="tool-cell-arrow">&#099;</span></a>
+  <a href="assistant.html" class="tool-cell"><span class="tool-cell-icon"><svg width="26" height="26" viewBox="0 0 28 28" fill="none"><path d="M5 22 Q14 4 23 22" stroke="#b89040" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M9 16 L19 16" stroke="#b89040" stroke-width="1.2" stroke-linecap="round"/></svg></span><div class="tool-cell-name">Art Assistant</div><div class="tool-cell-desc">Your personal AI mentor for critique, coaching, and colour theory.</div><span class="tool-cell-arrow">&#099;</span></a>
+</div>
+
+<section class="learn">
+  <div class="learn-left reveal">
+    <p class="section-label">Tips &amp; tutorials</p>
+    <h2 class="section-h2">Learn something <em>new today.</em></h2>
+    <div class="learn-tips">
+      <a href="tutorials.html#drawing" class="tip-row"><span class="tip-num">01</span><div><div class="tip-title">Holding charcoal loosely &mdash; why grip kills gesture</div><div class="tip-meta"><span>Drawing</span><span>&middot;</span><span>3 min read</span></div></div></a>
+      <a href="tutorials.html#watercolour" class="tip-row"><span class="tip-num">02</span><div><div class="tip-title">Mixing neutrals: the mud problem and how to avoid it</div><div class="tip-meta"><span>Painting</span><span>&middot;</span><span>5 min read</span></div></div></a>
+      <a href="tutorials.html#photography" class="tip-row"><span class="tip-num">03</span><div><div class="tip-title">Shooting in the blue hour &mdash; a practical guide</div><div class="tip-meta"><span>Photography</span><span>&middot;</span><span>4 min read</span></div></div></a>
+      <a href="tutorials.html#composition" class="tip-row"><span class="tip-num">04</span><div><div class="tip-title">Composition rules worth breaking (and why)</div><div class="tip-meta"><span>All mediums</span><span>&middot;</span><span>6 min read</span></div></div></a>
+    </div>
+  </div>
+  <div class="learn-right reveal">
+    <p class="section-label">Daily challenge</p>
+    <div class="challenge-card">
+      <div class="challenge-day" id="cDay">Loading&hellip;</div>
+      <div class="challenge-title" id="cTitle">Draw something you see every day but never look at.</div>
+      <div class="challenge-desc">A door handle. The corner of your desk. The pattern on your mug. Spend 15 minutes giving it your full attention.</div>
+      <div class="challenge-tags"><span class="c-tag">Any medium</span><span class="c-tag">15 minutes</span><span class="c-tag">Observation</span></div>
+      <a href="ideas.html" class="btn-fill" style="font-size:0.9rem;padding:12px 24px;display:inline-block"><span>&#10022; Generate more ideas</span></a>
+      <div class="challenge-bg-num" id="cNum">1</div>
+    </div>
+  </div>
+</section>
+
+<section class="mediums">
+  <div class="mediums-grid stagger">
+    <a href="tutorials.html#drawing" class="medium-card drawing"><span class="medium-icon">&#9999;&#65039;</span><div class="medium-name">Drawing</div><div class="medium-desc">Gesture sketches, graphite portraits, ink studies. All things pencil, line, and mark-making.</div><span class="medium-link">Explore drawing &rarr;</span></a>
+    <a href="tutorials.html#watercolour" class="medium-card painting"><span class="medium-icon">&#127912;</span><div class="medium-name">Painting</div><div class="medium-desc">Watercolour, oil, acrylic, gouache. The joy of colour, texture, and building up layers.</div><span class="medium-link">Explore painting &rarr;</span></a>
+    <a href="tutorials.html#photography" class="medium-card photo"><span class="medium-icon">&#128247;</span><div class="medium-name">Photography</div><div class="medium-desc">Light, framing, and the decisive moment. Capture the world as only you see it.</div><span class="medium-link">Explore photography &rarr;</span></a>
+    <a href="tutorials.html#sculpture" class="medium-card sculpt"><span class="medium-icon">&#127994;</span><div class="medium-name">Sculpture</div><div class="medium-desc">Clay, stone, wood, and wire. Making things you can hold, turn, and examine from every angle.</div><span class="medium-link">Explore sculpture &rarr;</span></a>
+    <a href="tutorials.html#film" class="medium-card film"><span class="medium-icon">&#127902;</span><div class="medium-name">Film</div><div class="medium-desc">Analogue photography &mdash; the darkroom, developing, and the Zone System.</div><span class="medium-link">Explore film &rarr;</span></a>
+    <a href="tutorials.html#composition" class="medium-card mixed"><span class="medium-icon">&#9986;&#65039;</span><div class="medium-name">Mixed Media</div><div class="medium-desc">Collage, printmaking, encaustic, and everything in between. Break the rules deliberately.</div><span class="medium-link">Explore mixed &rarr;</span></a>
+  </div>
+</section>
+
+<div class="quote-band reveal">
+  <p class="quote-text">The blank page, the empty canvas &mdash; they&rsquo;re not a problem. They&rsquo;re an invitation.</p>
+  <p class="quote-attr">&mdash; Lumetriq Art Studios</p>
+</div>
+
+<section class="cta" id="about">
+  <h2 class="reveal">Find your people.<br><em>Make your work.</em></h2>
+  <p class="reveal">Join a community of artists who show up every day &mdash; beginners and seasoned makers alike.</p>
+  <div class="cta-btns reveal">
+    <a href="ideas.html" class="btn-fill"><span>&#10022; Start with an idea</span></a>
+    <a href="gallery.html" class="btn-line">Browse the gallery &rarr;</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-brand-name">&#10022; Lumetriq Art Studios</div>
+      <p>A creative community for drawing, painting, photography, sculpture, and film. Every mark matters here.</p>
+    </div>
+    <div class="footer-col"><h5>Create</h5><ul>
+      <li><a href="ideas.html">Idea Generator</a></li>
+      <li><a href="assistant.html">Art Assistant</a></li>
+      <li><a href="tutorials.html">Tutorials</a></li>
+    </ul></div>
+    <div class="footer-col"><h5>Community</h5><ul>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="shop.html">Art Shop</a></li>
+    </ul></div>
+    <div class="footer-col"><h5>About</h5><ul>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="mailto:lumetriqartstudios@gmail.com">Contact</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">&copy; 2025 Lumetriq Art Studios. Made for artists.</span>
+    <div class="footer-pills">
+      <span class="footer-pill">Drawing</span><span class="footer-pill">Painting</span>
+      <span class="footer-pill">Photography</span><span class="footer-pill">Sculpture</span><span class="footer-pill">Film</span>
+    </div>
+  </div>
+</footer>
+<script>
+const _io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');_io.unobserve(x.target);}});},{threshold:0.1});
+document.querySelectorAll('.reveal,.stagger').forEach(el=>_io.observe(el));
+</script>
+<script>
+const challenges=[
+  "Draw something you see every day but never look at.",
+  "Capture a shadow — just the shadow, nothing that casts it.",
+  "Sculpt something that fits in your palm.",
+  "Paint the sky right now, exactly as it is.",
+  "Draw an entire scene using only its reflections.",
+  "Draw 100 lines — all different pressures and speeds.",
+  "Mix a colour you have never mixed before."
+];
+const now=new Date();
+const day=Math.floor((now-new Date(now.getFullYear(),0,0))/86400000);
+document.getElementById('cTitle').textContent=challenges[day%challenges.length];
+document.getElementById
