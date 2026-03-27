@@ -305,7 +305,7 @@ async function generate(){
       </div>`).join('')+'</div>';
   }catch(err){
     document.getElementById('resCount').textContent='';
-    document.getElementById('resultsArea').innerHTML=`<div class="error-state"><strong>AI generation needs the server running.</strong>The built-in ideas below always work &mdash; scroll down to see them. To enable AI generation, deploy to Replit or run the server locally.</div>`;
+    document.getElementById('resultsArea').innerHTML=`<div class="error-state"><strong>Could not generate ideas.</strong> The server may be starting up — wait a few seconds and try again.</div>`;
   }finally{btn.disabled=false;btn.querySelector('span').textContent='\u2736 Generate 6 Ideas';}
 }
 
