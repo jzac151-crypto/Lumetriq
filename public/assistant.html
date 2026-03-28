@@ -229,7 +229,7 @@ async function send() {
   addTyping();
 
   try {
-    const res = await fetch('https://lumetriq.onrender.com/api/claude', {
+    const res = await fetch('https://claude-proxy-server--jzac151.replit.app/api/claude', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
